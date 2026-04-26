@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="theme-color" content="#F7F8FA"/>
-  <title>SpeekNL</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; width: 100%; overflow: hidden; }
-    #root { height: 100%; width: 100%; display: flex; flex-direction: column; }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-  <script>
-const {
+<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="theme-color" content="#F7F8FA"/><title>SpeekNL</title><script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script><script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script><style>* { box-sizing: border-box; margin: 0; padding: 0; } html, body { height: 100%; width: 100%; overflow: hidden; } #root { height: 100%; width: 100%; display: flex; flex-direction: column; }</style></head><body><div id="root"></div><script>const {
   useState,
   useEffect,
   useCallback,
@@ -34,8 +14,340 @@ const w = (nl, en, enl, een) => ({
   ex_en: een
 });
 
+// ─── A0→A1 VOCABULARY & GRAMMAR ──────────────────────────────────────────────
+// ─── A0→A1 VOCABULARY ─────────────────────────────────────────────────────────
+// 500 words across 6 beginner topics
+// Format matches existing TOPICS array — paste directly after closing ] of TOPICS
+// or replace TOPICS with TOPICS_A0 and TOPICS_A2 for level switching
+//
+// Merge instruction:
+//   const TOPICS_A1 = [ ...below... ];
+//   Then in your app: const TOPICS = level === 'a1' ? TOPICS_A1 : TOPICS_A2;
+
+const TOPICS_A1 = [
+// ── 1. BEGROETINGEN & BASISZINNEN ─────────────────────────────────────────
+{
+  id: "greetings",
+  title: "Begroetingen",
+  english: "Greetings & Basics",
+  icon: "👋",
+  color: "#2563EB",
+  words: [w("hallo", "hello", "Hallo! Hoe gaat het?", "Hello! How are you?"), w("goedemorgen", "good morning", "Goedemorgen! Slaap je goed?", "Good morning! Did you sleep well?"), w("goedemiddag", "good afternoon", "Goedemiddag! Hoe is je dag?", "Good afternoon! How is your day?"), w("goedenavond", "good evening", "Goedenavond! Kom binnen.", "Good evening! Come in."), w("goedenacht", "good night", "Goedenacht! Slaap lekker.", "Good night! Sleep well."), w("tot ziens", "goodbye", "Tot ziens! Tot morgen.", "Goodbye! See you tomorrow."), w("dag", "bye", "Dag! Tot snel.", "Bye! See you soon."), w("tot later", "see you later", "Tot later! Ik ga nu.", "See you later! I'm going now."), w("hoe gaat het?", "how are you?", "Hoe gaat het met jou?", "How are you?"), w("goed", "good / well", "Het gaat goed, dank je.", "I'm doing well, thank you."), w("prima", "fine / great", "Prima! En met jou?", "Great! And with you?"), w("niet zo goed", "not so good", "Het gaat niet zo goed vandaag.", "It's not so good today."), w("ja", "yes", "Ja, dat klopt.", "Yes, that's correct."), w("nee", "no", "Nee, dat is niet waar.", "No, that is not true."), w("alsjeblieft", "please (informal)", "Geef mij het boek, alsjeblieft.", "Give me the book, please."), w("alstublieft", "please (formal)", "Een koffie, alstublieft.", "A coffee, please."), w("dank je", "thank you (informal)", "Dank je voor je hulp.", "Thank you for your help."), w("dank u wel", "thank you (formal)", "Dank u wel voor de informatie.", "Thank you for the information."), w("graag gedaan", "you're welcome", "Graag gedaan! Geen probleem.", "You're welcome! No problem."), w("sorry", "sorry", "Sorry, ik begrijp het niet.", "Sorry, I don't understand."), w("excuseer", "excuse me", "Excuseer, waar is de wc?", "Excuse me, where is the toilet?"), w("geen probleem", "no problem", "Geen probleem! Ik help je.", "No problem! I'll help you."), w("ik heet...", "my name is...", "Ik heet Anna. En jij?", "My name is Anna. And you?"), w("wat is je naam?", "what is your name?", "Wat is je naam, alsjeblieft?", "What is your name, please?"), w("aangenaam", "pleased to meet you", "Aangenaam! Ik ben Pieter.", "Pleased to meet you! I am Pieter."), w("ik kom uit...", "I come from...", "Ik kom uit Nederland.", "I come from the Netherlands."), w("waar kom je vandaan?", "where are you from?", "Waar kom je vandaan?", "Where are you from?"), w("ik spreek een beetje Nederlands", "I speak a little Dutch", "Ik spreek een beetje Nederlands.", "I speak a little Dutch."), w("spreekt u Engels?", "do you speak English?", "Spreekt u Engels? Ik leer Nederlands.", "Do you speak English? I am learning Dutch."), w("ik begrijp het niet", "I don't understand", "Ik begrijp het niet. Kunt u dat herhalen?", "I don't understand. Can you repeat that?"), w("kunt u dat herhalen?", "can you repeat that?", "Kunt u dat herhalen, alstublieft?", "Can you repeat that, please?"), w("langzamer alstublieft", "slower please", "Kunt u langzamer spreken, alstublieft?", "Can you speak slower, please?"), w("wat betekent...?", "what does ... mean?", "Wat betekent dit woord?", "What does this word mean?"), w("hoe zeg je...?", "how do you say...?", "Hoe zeg je 'hello' in het Nederlands?", "How do you say 'hello' in Dutch?"), w("ik weet het niet", "I don't know", "Ik weet het niet. Sorry.", "I don't know. Sorry."), w("ja, dat begrijp ik", "yes, I understand that", "Ja, dat begrijp ik nu.", "Yes, I understand that now."), w("een moment", "one moment", "Een moment, alstublieft.", "One moment, please."), w("oké", "okay", "Oké, dat is goed.", "Okay, that is good."), w("natuurlijk", "of course", "Natuurlijk! Geen probleem.", "Of course! No problem."), w("misschien", "maybe", "Misschien kom ik morgen.", "Maybe I'll come tomorrow."), w("misschien niet", "maybe not", "Misschien niet vandaag.", "Maybe not today."), w("ik weet het", "I know", "Ik weet het! Dat is Amsterdam.", "I know! That is Amsterdam."), w("goed zo", "well done", "Goed zo! Je spreekt goed Nederlands.", "Well done! You speak Dutch well."), w("succes!", "good luck!", "Succes met je examen!", "Good luck with your exam!"), w("proost!", "cheers!", "Proost! Op jouw gezondheid.", "Cheers! To your health."), w("gefeliciteerd!", "congratulations!", "Gefeliciteerd! Het is een meisje.", "Congratulations! It's a girl."), w("alles goed?", "is everything okay?", "Alles goed met je?", "Is everything okay with you?"), w("tot morgen", "see you tomorrow", "Tot morgen! Slaap lekker.", "See you tomorrow! Sleep well."), w("welkom", "welcome", "Welkom in Nederland!", "Welcome to the Netherlands!"), w("tot ziens en bedankt", "goodbye and thank you", "Tot ziens en bedankt voor alles.", "Goodbye and thank you for everything.")]
+},
+// ── 2. CIJFERS, TIJD & DATUM ────────────────────────────────────────────────
+{
+  id: "numbers",
+  title: "Cijfers & Tijd",
+  english: "Numbers & Time",
+  icon: "🔢",
+  color: "#16A34A",
+  words: [w("nul", "zero", "Het is nul graden buiten.", "It is zero degrees outside."), w("één", "one", "Ik heb één broer.", "I have one brother."), w("twee", "two", "Twee koffie, alstublieft.", "Two coffees, please."), w("drie", "three", "Ik woon drie kilometer van het centrum.", "I live three kilometres from the centre."), w("vier", "four", "Er zijn vier seizoenen.", "There are four seasons."), w("vijf", "five", "Ik werk vijf dagen per week.", "I work five days a week."), w("zes", "six", "De trein vertrekt om zes uur.", "The train departs at six o'clock."), w("zeven", "seven", "Er zijn zeven dagen in een week.", "There are seven days in a week."), w("acht", "eight", "Ik slaap acht uur per nacht.", "I sleep eight hours a night."), w("negen", "nine", "De winkel opent om negen uur.", "The shop opens at nine o'clock."), w("tien", "ten", "Ik heb tien euro.", "I have ten euros."), w("elf", "eleven", "De les begint om elf uur.", "The lesson starts at eleven o'clock."), w("twaalf", "twelve", "Het is twaalf uur 's middags.", "It is twelve o'clock noon."), w("dertien", "thirteen", "Ik ben dertien jaar oud.", "I am thirteen years old."), w("veertien", "fourteen", "Het appartement kost veertien euro per dag.", "The apartment costs fourteen euros per day."), w("vijftien", "fifteen", "Over vijftien minuten ben ik er.", "In fifteen minutes I'll be there."), w("twintig", "twenty", "Het is twintig graden vandaag.", "It is twenty degrees today."), w("dertig", "thirty", "Hij is dertig jaar oud.", "He is thirty years old."), w("veertig", "forty", "De fiets kost veertig euro.", "The bicycle costs forty euros."), w("vijftig", "fifty", "Zij werkt al vijftig jaar.", "She has been working for fifty years."), w("honderd", "hundred", "Het kost honderd euro.", "It costs one hundred euros."), w("duizend", "thousand", "Er wonen duizend mensen in het dorp.", "A thousand people live in the village."), w("eerste", "first", "Januari is de eerste maand.", "January is the first month."), w("tweede", "second", "Ik woon op de tweede verdieping.", "I live on the second floor."), w("derde", "third", "Hij is derde geworden.", "He came third."), w("maandag", "Monday", "Op maandag heb ik een vergadering.", "On Monday I have a meeting."), w("dinsdag", "Tuesday", "Dinsdag ga ik naar de sportschool.", "On Tuesday I go to the gym."), w("woensdag", "Wednesday", "Woensdag is het midden van de week.", "Wednesday is the middle of the week."), w("donderdag", "Thursday", "Op donderdag werk ik thuis.", "On Thursday I work from home."), w("vrijdag", "Friday", "Vrijdag is mijn favoriete dag.", "Friday is my favourite day."), w("zaterdag", "Saturday", "Op zaterdag ga ik naar de markt.", "On Saturday I go to the market."), w("zondag", "Sunday", "Zondag is een rustdag.", "Sunday is a day of rest."), w("het weekend", "the weekend", "In het weekend slaap ik uit.", "At the weekend I sleep in."), w("vandaag", "today", "Wat doe je vandaag?", "What are you doing today?"), w("morgen", "tomorrow", "Morgen ga ik naar Amsterdam.", "Tomorrow I am going to Amsterdam."), w("gisteren", "yesterday", "Gisteren was het mooi weer.", "Yesterday the weather was nice."), w("nu", "now", "Ik ben nu thuis.", "I am home now."), w("later", "later", "Later ga ik boodschappen doen.", "Later I am going to do the shopping."), w("vroeg", "early", "Ik sta vroeg op.", "I get up early."), w("laat", "late", "De trein is laat.", "The train is late."), w("het uur", "the hour", "Over een uur ben ik klaar.", "In one hour I'll be done."), w("de minuut", "the minute", "Wacht even, één minuut.", "Wait a moment, one minute."), w("de dag", "the day", "Het is een mooie dag.", "It is a beautiful day."), w("de week", "the week", "Deze week heb ik het druk.", "This week I am busy."), w("de maand", "the month", "Welke maand is het?", "Which month is it?"), w("het jaar", "the year", "Dit jaar ga ik naar Nederland.", "This year I am going to the Netherlands."), w("hoe laat is het?", "what time is it?", "Hoe laat is het, alstublieft?", "What time is it, please?"), w("het is twee uur", "it is two o'clock", "Het is twee uur 's middags.", "It is two o'clock in the afternoon."), w("half drie", "half past two", "De film begint om half drie.", "The film starts at half past two."), w("kwart voor", "quarter to", "Het is kwart voor acht.", "It is quarter to eight."), w("kwart over", "quarter past", "Het is kwart over negen.", "It is quarter past nine.")]
+},
+// ── 3. MENSEN & FAMILIE ─────────────────────────────────────────────────────
+{
+  id: "people",
+  title: "Mensen & Familie",
+  english: "People & Family",
+  icon: "👨‍👩‍👧",
+  color: "#9333EA",
+  words: [w("ik", "I", "Ik ben student.", "I am a student."), w("jij / je", "you (informal)", "Jij spreekt goed Nederlands.", "You speak Dutch well."), w("u", "you (formal)", "Spreekt u Nederlands?", "Do you speak Dutch?"), w("hij", "he", "Hij is mijn vriend.", "He is my friend."), w("zij / ze", "she", "Zij werkt in Amsterdam.", "She works in Amsterdam."), w("het", "it", "Het is een mooie dag.", "It is a beautiful day."), w("wij / we", "we", "Wij wonen in Utrecht.", "We live in Utrecht."), w("jullie", "you (plural)", "Jullie zijn welkom hier.", "You are welcome here."), w("zij / ze (mv)", "they", "Zij komen morgen aan.", "They are arriving tomorrow."), w("de man", "the man", "De man leest een krant.", "The man is reading a newspaper."), w("de vrouw", "the woman", "De vrouw werkt in een winkel.", "The woman works in a shop."), w("het kind", "the child", "Het kind speelt in de tuin.", "The child is playing in the garden."), w("de baby", "the baby", "De baby slaapt nu.", "The baby is sleeping now."), w("de jongen", "the boy", "De jongen is tien jaar oud.", "The boy is ten years old."), w("het meisje", "the girl", "Het meisje speelt met haar pop.", "The girl is playing with her doll."), w("de vader", "the father", "Mijn vader werkt als leraar.", "My father works as a teacher."), w("de moeder", "the mother", "Mijn moeder kookt elke dag.", "My mother cooks every day."), w("de ouders", "the parents", "Mijn ouders wonen in Leiden.", "My parents live in Leiden."), w("de broer", "the brother", "Ik heb één broer.", "I have one brother."), w("de zus", "the sister", "Mijn zus is ouder dan ik.", "My sister is older than me."), w("de opa", "the grandfather", "Mijn opa is tachtig jaar oud.", "My grandfather is eighty years old."), w("de oma", "the grandmother", "Mijn oma bakt heerlijke taart.", "My grandmother bakes delicious cake."), w("de oom", "the uncle", "Mijn oom woont in België.", "My uncle lives in Belgium."), w("de tante", "the aunt", "Mijn tante is erg aardig.", "My aunt is very kind."), w("de neef", "the nephew / cousin (m)", "Mijn neef speelt voetbal.", "My nephew plays football."), w("de nicht", "the niece / cousin (f)", "Mijn nicht studeert medicijnen.", "My niece studies medicine."), w("de vriend", "the friend (m) / boyfriend", "Hij is mijn beste vriend.", "He is my best friend."), w("de vriendin", "the friend (f) / girlfriend", "Mijn vriendin woont in Rotterdam.", "My girlfriend lives in Rotterdam."), w("de buurman", "the neighbour (m)", "Mijn buurman heeft een grote hond.", "My neighbour has a big dog."), w("de buurvrouw", "the neighbour (f)", "De buurvrouw is erg aardig.", "The neighbour is very kind."), w("de naam", "the name", "Wat is je naam?", "What is your name?"), w("de leeftijd", "the age", "Wat is je leeftijd?", "What is your age?"), w("oud zijn", "to be old / to be ... years old", "Hoe oud ben je?", "How old are you?"), w("jong", "young", "Zij is nog erg jong.", "She is still very young."), w("oud", "old", "Hij is al oud.", "He is already old."), w("getrouwd", "married", "Zij zijn getrouwd.", "They are married."), w("vrijgezel", "single", "Ik ben nog vrijgezel.", "I am still single."), w("de nationaliteit", "the nationality", "Wat is je nationaliteit?", "What is your nationality?"), w("Nederlands", "Dutch", "Ik leer Nederlands.", "I am learning Dutch."), w("de taal", "the language", "Welke talen spreek je?", "Which languages do you speak?"), w("het land", "the country", "Uit welk land kom je?", "Which country are you from?"), w("de stad", "the city", "Ik woon in een grote stad.", "I live in a big city."), w("wonen", "to live", "Ik woon in Amsterdam.", "I live in Amsterdam."), w("werken", "to work", "Ik werk in een kantoor.", "I work in an office."), w("studeren", "to study", "Ik studeer aan de universiteit.", "I study at the university."), w("de student", "the student", "Ik ben student.", "I am a student."), w("de leraar", "the teacher", "Mijn leraar spreekt langzaam.", "My teacher speaks slowly."), w("het beroep", "the profession", "Wat is je beroep?", "What is your profession?"), w("leuk", "nice / fun", "Het is leuk om Nederlands te leren.", "It is nice to learn Dutch."), w("aardig", "kind / nice", "Hij is een erg aardige man.", "He is a very kind man.")]
+},
+// ── 4. ETEN & DRINKEN ──────────────────────────────────────────────────────
+{
+  id: "food_basic",
+  title: "Eten & Drinken",
+  english: "Food & Drink",
+  icon: "🍞",
+  color: "#D97706",
+  words: [w("het water", "the water", "Een glas water, alstublieft.", "A glass of water, please."), w("de koffie", "the coffee", "Ik drink elke ochtend koffie.", "I drink coffee every morning."), w("de thee", "the tea", "Wil je thee of koffie?", "Would you like tea or coffee?"), w("het bier", "the beer", "Hij drinkt een glas bier.", "He is drinking a glass of beer."), w("de wijn", "the wine", "Een glas rode wijn, alstublieft.", "A glass of red wine, please."), w("de melk", "the milk", "Ik doe melk in mijn koffie.", "I put milk in my coffee."), w("het sap", "the juice", "Ik drink graag sinaasappelsap.", "I like to drink orange juice."), w("het brood", "the bread", "Ik eet elke dag brood.", "I eat bread every day."), w("de boter", "the butter", "Doe je boter op je brood?", "Do you put butter on your bread?"), w("de kaas", "the cheese", "Nederland is bekend om zijn kaas.", "The Netherlands is famous for its cheese."), w("het vlees", "the meat", "Ik eet niet veel vlees.", "I don't eat much meat."), w("de kip", "the chicken", "We eten vanavond kip.", "We are eating chicken tonight."), w("de vis", "the fish", "Zij eet elke vrijdag vis.", "She eats fish every Friday."), w("het ei", "the egg", "Ik eet twee eieren per dag.", "I eat two eggs a day."), w("de groente", "the vegetable", "Ik eet veel groente.", "I eat a lot of vegetables."), w("het fruit", "the fruit", "Fruit is gezond.", "Fruit is healthy."), w("de appel", "the apple", "Een appel per dag houdt de dokter weg.", "An apple a day keeps the doctor away."), w("de banaan", "the banana", "Ik eet een banaan als snack.", "I eat a banana as a snack."), w("de tomaat", "the tomato", "De tomaat is rood.", "The tomato is red."), w("de aardappel", "the potato", "Nederlanders eten veel aardappelen.", "Dutch people eat many potatoes."), w("de soep", "the soup", "Ik eet graag tomatensoep.", "I like tomato soup."), w("het ontbijt", "the breakfast", "Ik eet altijd ontbijt.", "I always eat breakfast."), w("de lunch", "the lunch", "Ik eet de lunch op mijn werk.", "I eat lunch at work."), w("het diner", "the dinner", "Wij eten het diner om zes uur.", "We eat dinner at six o'clock."), w("het restaurant", "the restaurant", "Zullen we naar een restaurant gaan?", "Shall we go to a restaurant?"), w("het café", "the café", "Er is een gezellig café hier.", "There is a cosy café here."), w("de menukaart", "the menu", "Mag ik de menukaart?", "May I have the menu?"), w("bestellen", "to order", "Ik wil graag een biefstuk bestellen.", "I would like to order a steak."), w("de rekening", "the bill", "De rekening, alstublieft.", "The bill, please."), w("lekker", "tasty / delicious", "Dit eten is heel lekker.", "This food is very tasty."), w("lekker vinden", "to like (food)", "Ik vind pizza heel lekker.", "I really like pizza."), w("niet lekker", "not tasty", "Dit smaakt niet lekker.", "This doesn't taste nice."), w("honger hebben", "to be hungry", "Ik heb honger. Wat eten we?", "I am hungry. What are we eating?"), w("dorst hebben", "to be thirsty", "Ik heb dorst. Mag ik water?", "I am thirsty. May I have water?"), w("de suiker", "the sugar", "Doe je suiker in je koffie?", "Do you put sugar in your coffee?"), w("het zout", "the salt", "Kun je het zout even aangeven?", "Can you pass the salt?"), w("de cake", "the cake", "Op mijn verjaardag eet ik cake.", "On my birthday I eat cake."), w("het koekje", "the biscuit / cookie", "Wil je een koekje bij de thee?", "Would you like a biscuit with your tea?"), w("de chips", "the crisps", "Ik eet chips als snack.", "I eat crisps as a snack."), w("vegetarisch", "vegetarian", "Ik ben vegetarisch.", "I am vegetarian."), w("allergisch voor", "allergic to", "Ik ben allergisch voor noten.", "I am allergic to nuts."), w("warm", "warm / hot", "Het eten is te warm.", "The food is too hot."), w("koud", "cold", "Het water is koud.", "The water is cold."), w("lekker warm", "nicely warm", "De soep is lekker warm.", "The soup is nicely warm."), w("vol zijn", "to be full", "Ik ben vol. Ik kan niet meer eten.", "I am full. I cannot eat any more."), w("proeven", "to taste", "Wil je dit proeven?", "Do you want to taste this?"), w("eten", "to eat", "Wat wil je eten?", "What do you want to eat?"), w("drinken", "to drink", "Wat wil je drinken?", "What do you want to drink?"), w("koken", "to cook", "Kook jij vanavond?", "Are you cooking tonight?"), w("het glas", "the glass", "Een glas water, alstublieft.", "A glass of water, please."), w("de kop", "the cup", "Een kop thee, graag.", "A cup of tea, please.")]
+},
+// ── 5. PLAATSEN & VERVOER ───────────────────────────────────────────────────
+{
+  id: "places",
+  title: "Plaatsen & Vervoer",
+  english: "Places & Transport",
+  icon: "🚲",
+  color: "#0891B2",
+  words: [w("het huis", "the house", "Ik woon in een klein huis.", "I live in a small house."), w("het appartement", "the apartment", "Mijn appartement is op de derde verdieping.", "My apartment is on the third floor."), w("de kamer", "the room", "Ik heb een eigen kamer.", "I have my own room."), w("de straat", "the street", "Ik woon in een rustige straat.", "I live in a quiet street."), w("de stad", "the city", "Amsterdam is een mooie stad.", "Amsterdam is a beautiful city."), w("het dorp", "the village", "Ik kom uit een klein dorp.", "I come from a small village."), w("het centrum", "the city centre", "Het centrum is op loopafstand.", "The city centre is within walking distance."), w("de winkel", "the shop", "De winkel is gesloten op zondag.", "The shop is closed on Sunday."), w("de supermarkt", "the supermarket", "Ik ga naar de supermarkt.", "I am going to the supermarket."), w("de bakker", "the bakery", "De bakker opent om zeven uur.", "The bakery opens at seven o'clock."), w("de bank", "the bank", "Ik ga naar de bank om geld te halen.", "I am going to the bank to get money."), w("het ziekenhuis", "the hospital", "Het ziekenhuis is vlakbij.", "The hospital is nearby."), w("de dokter", "the doctor", "Ik ga naar de dokter.", "I am going to the doctor."), w("de apotheek", "the pharmacy", "De apotheek is open tot zes uur.", "The pharmacy is open until six o'clock."), w("het station", "the station", "Het treinstation is in het centrum.", "The train station is in the centre."), w("de trein", "the train", "De trein naar Amsterdam vertrekt nu.", "The train to Amsterdam departs now."), w("de bus", "the bus", "Welke bus gaat naar het centrum?", "Which bus goes to the centre?"), w("de metro", "the metro / underground", "De metro is snel.", "The metro is fast."), w("de auto", "the car", "Ik ga met de auto naar mijn werk.", "I go to work by car."), w("de fiets", "the bicycle", "De fiets is populair in Nederland.", "The bicycle is popular in the Netherlands."), w("lopen", "to walk", "Ik loop naar de winkel.", "I walk to the shop."), w("rijden", "to drive / to ride", "Ik rijd elke dag met de fiets.", "I ride my bicycle every day."), w("het vliegtuig", "the aeroplane", "Ik vlieg naar Spanje.", "I am flying to Spain."), w("het ticket", "the ticket", "Ik koop een treinticket.", "I am buying a train ticket."), w("het perron", "the platform", "De trein staat op perron drie.", "The train is on platform three."), w("links", "left", "Sla links af bij de hoek.", "Turn left at the corner."), w("rechts", "right", "Het station is rechts.", "The station is on the right."), w("rechtdoor", "straight ahead", "Ga rechtdoor tot het einde.", "Go straight ahead to the end."), w("hier", "here", "Ik woon hier.", "I live here."), w("daar", "there", "De winkel is daar.", "The shop is over there."), w("dichtbij", "nearby / close", "Het station is dichtbij.", "The station is nearby."), w("ver", "far", "Het centrum is niet ver.", "The centre is not far."), w("waar is...?", "where is...?", "Waar is het station, alstublieft?", "Where is the station, please?"), w("hoe kom ik bij...?", "how do I get to...?", "Hoe kom ik bij het centrum?", "How do I get to the centre?"), w("de kaart", "the map", "Heb je een kaart van de stad?", "Do you have a map of the city?"), w("het adres", "the address", "Wat is je adres?", "What is your address?"), w("de postcode", "the postcode", "Wat is de postcode?", "What is the postcode?"), w("open", "open", "De winkel is open.", "The shop is open."), w("gesloten", "closed", "De bank is gesloten.", "The bank is closed."), w("de ingang", "the entrance", "De ingang is aan de voorkant.", "The entrance is at the front."), w("de uitgang", "the exit", "De uitgang is rechts.", "The exit is on the right."), w("het toilet / de wc", "the toilet", "Waar is het toilet?", "Where is the toilet?"), w("de sleutel", "the key", "Ik heb mijn sleutel vergeten.", "I have forgotten my key."), w("het hotel", "the hotel", "Ik verblijf in een hotel.", "I am staying in a hotel."), w("de luchthaven", "the airport", "Het vliegtuig vertrekt van de luchthaven.", "The aeroplane departs from the airport."), w("de haven", "the harbour / port", "Rotterdam heeft een grote haven.", "Rotterdam has a large port."), w("de brug", "the bridge", "Amsterdam heeft veel bruggen.", "Amsterdam has many bridges."), w("de gracht", "the canal", "De grachten zijn mooi in Amsterdam.", "The canals are beautiful in Amsterdam."), w("het park", "the park", "Ik loop in het park.", "I walk in the park."), w("de school", "the school", "De school begint om acht uur.", "School starts at eight o'clock.")]
+},
+// ── 6. BESCHRIJVINGEN & DAGELIJKS LEVEN ─────────────────────────────────────
+{
+  id: "descriptions",
+  title: "Beschrijvingen",
+  english: "Descriptions & Daily Life",
+  icon: "🎨",
+  color: "#DC2626",
+  words: [w("groot", "big / large", "Amsterdam is een grote stad.", "Amsterdam is a large city."), w("klein", "small / little", "Ik heb een kleine auto.", "I have a small car."), w("goed", "good", "Dit is een goed idee.", "This is a good idea."), w("slecht", "bad", "Het weer is slecht vandaag.", "The weather is bad today."), w("mooi", "beautiful / nice", "Het is een mooie dag.", "It is a beautiful day."), w("lelijk", "ugly", "Dat is een lelijk gebouw.", "That is an ugly building."), w("nieuw", "new", "Ik heb een nieuwe telefoon.", "I have a new phone."), w("oud", "old", "Dit is een oud gebouw.", "This is an old building."), w("duur", "expensive", "Die jas is erg duur.", "That coat is very expensive."), w("goedkoop", "cheap", "De supermarkt is goedkoop.", "The supermarket is cheap."), w("rood", "red", "De appel is rood.", "The apple is red."), w("blauw", "blue", "De lucht is blauw.", "The sky is blue."), w("groen", "green", "Het gras is groen.", "The grass is green."), w("geel", "yellow", "De zon is geel.", "The sun is yellow."), w("wit", "white", "De sneeuw is wit.", "The snow is white."), w("zwart", "black", "Ik draag een zwarte jas.", "I am wearing a black coat."), w("oranje", "orange", "De tulp is oranje.", "The tulip is orange."), w("roze", "pink", "Zij draagt een roze jurk.", "She is wearing a pink dress."), w("bruin", "brown", "De tafel is bruin.", "The table is brown."), w("grijs", "grey", "De lucht is grijs vandaag.", "The sky is grey today."), w("het hoofd", "the head", "Ik heb hoofdpijn.", "I have a headache."), w("de hand", "the hand", "Geef mij je hand.", "Give me your hand."), w("het oog", "the eye", "Haar ogen zijn blauw.", "Her eyes are blue."), w("het oor", "the ear", "Ik heb oorpijn.", "I have earache."), w("de neus", "the nose", "Mijn neus is verstopt.", "My nose is blocked."), w("de mond", "the mouth", "Doe je mond open.", "Open your mouth."), w("de tand", "the tooth", "Ik ga naar de tandarts.", "I am going to the dentist."), w("de rug", "the back", "Ik heb rugpijn.", "I have back pain."), w("de buik", "the stomach", "Ik heb buikpijn.", "I have stomach ache."), w("het been", "the leg", "Hij heeft zijn been gebroken.", "He has broken his leg."), w("de voet", "the foot", "Mijn voet doet pijn.", "My foot hurts."), w("ziek zijn", "to be ill", "Ik ben ziek. Ik ga naar de dokter.", "I am ill. I am going to the doctor."), w("moe zijn", "to be tired", "Ik ben erg moe vandaag.", "I am very tired today."), w("blij zijn", "to be happy", "Ik ben blij dat je er bent.", "I am happy that you are here."), w("verdrietig zijn", "to be sad", "Zij is verdrietig vandaag.", "She is sad today."), w("boos zijn", "to be angry", "Hij is boos op mij.", "He is angry with me."), w("bang zijn", "to be scared", "De hond is bang voor onweer.", "The dog is scared of thunder."), w("warm", "warm", "Het is warm vandaag.", "It is warm today."), w("koud", "cold", "Het is koud buiten.", "It is cold outside."), w("het weer", "the weather", "Hoe is het weer vandaag?", "What is the weather like today?"), w("de zon", "the sun", "De zon schijnt vandaag.", "The sun is shining today."), w("de regen", "the rain", "Ik houd niet van regen.", "I don't like rain."), w("de sneeuw", "the snow", "In december valt er soms sneeuw.", "In December there is sometimes snow."), w("de wind", "the wind", "Er staat veel wind vandaag.", "There is a lot of wind today."), w("snel", "fast / quick", "De trein is snel.", "The train is fast."), w("langzaam", "slow", "Rijd alstublieft langzaam.", "Please drive slowly."), w("gemakkelijk", "easy", "Nederlands is gemakkelijk te leren.", "Dutch is easy to learn."), w("moeilijk", "difficult", "De grammatica is soms moeilijk.", "The grammar is sometimes difficult."), w("interessant", "interesting", "Dit boek is heel interessant.", "This book is very interesting."), w("saai", "boring", "De film was erg saai.", "The film was very boring."), w("samen", "together", "We doen het samen.", "We do it together.")]
+}];
+
+// ─── A0→A1 GRAMMAR RULES ──────────────────────────────────────────────────────
+// 8 rules — paste into GRAMMAR_FULL array before existing A2 rules
+// Each object matches the existing { id, title, sub, color, rule, examples, tip, quiz } format
+
+const GRAMMAR_A1 = [{
+  id: "pronouns",
+  title: "Persoonlijke Voornaamwoorden",
+  sub: "Personal pronouns",
+  color: "#2563EB",
+  rule: "ik → I\njij/je → you (informal)\nu → you (formal, polite)\nhij → he\nzij/ze → she / they\nhet → it\nwij/we → we\njullie → you (plural)\nzij/ze → they\n\nTip: je and ze are the unstressed short forms used in normal speech.",
+  examples: [{
+    nl: "Ik ben student.",
+    en: "I am a student."
+  }, {
+    nl: "Jij spreekt goed Nederlands.",
+    en: "You speak Dutch well."
+  }, {
+    nl: "Hij werkt in Amsterdam.",
+    en: "He works in Amsterdam."
+  }, {
+    nl: "Wij wonen in Utrecht.",
+    en: "We live in Utrecht."
+  }],
+  tip: "Use 'u' when speaking to someone older or in a formal setting (shop, doctor, official). In everyday speech with friends, use 'jij'.",
+  quiz: {
+    q: "'They live in Amsterdam.' Which pronoun?",
+    opts: ["Jullie wonen in Amsterdam.", "Zij wonen in Amsterdam.", "Wij wonen in Amsterdam.", "Hij woont in Amsterdam."],
+    a: 1,
+    ex: "Zij/ze = they. Zij wonen in Amsterdam. ✓"
+  }
+}, {
+  id: "zijn",
+  title: "Het Werkwoord 'Zijn'",
+  sub: "To be — the most important verb",
+  color: "#16A34A",
+  rule: "zijn = to be (completely irregular!)\n\nik BEN\njij/je BENT\nhij/zij/het IS\nwij/jullie/zij ZIJN\n\nQuestions: 'Ben jij...' / 'Is hij...' / 'Zijn jullie...'\nNegation: 'Ik ben NIET ziek.'",
+  examples: [{
+    nl: "Ik ben moe.",
+    en: "I am tired."
+  }, {
+    nl: "Jij bent aardig.",
+    en: "You are kind."
+  }, {
+    nl: "Hij is leraar.",
+    en: "He is a teacher."
+  }, {
+    nl: "Wij zijn thuis.",
+    en: "We are at home."
+  }],
+  tip: "'Zijn' is the most-used verb in Dutch. Learn these 3 forms by heart: BEN, IS, ZIJN. You'll use them every sentence.",
+  quiz: {
+    q: "'She is a doctor.' Complete: Zij ___ dokter.",
+    opts: ["ben", "bent", "is", "zijn"],
+    a: 2,
+    ex: "hij/zij/het → IS. Zij IS dokter. ✓"
+  }
+}, {
+  id: "hebben",
+  title: "Het Werkwoord 'Hebben'",
+  sub: "To have — second most important verb",
+  color: "#9333EA",
+  rule: "hebben = to have\n\nik HEB\njij/je HEBT (→ HEB in questions: 'Heb jij...')\nhij/zij/het HEEFT\nwij/jullie/zij HEBBEN\n\nUsed for: possession ('Ik heb een hond')\nAlso used for feelings: 'Ik heb honger/dorst/pijn'",
+  examples: [{
+    nl: "Ik heb een fiets.",
+    en: "I have a bicycle."
+  }, {
+    nl: "Hij heeft twee kinderen.",
+    en: "He has two children."
+  }, {
+    nl: "Heb jij een auto?",
+    en: "Do you have a car?"
+  }, {
+    nl: "Ik heb honger.",
+    en: "I am hungry. (lit: I have hunger)"
+  }],
+  tip: "Dutch says 'I HAVE hunger/thirst/pain' — not 'I AM hungry'. Always: ik heb honger, ik heb dorst, ik heb pijn.",
+  quiz: {
+    q: "'I have a question.' Complete: Ik ___ een vraag.",
+    opts: ["ben", "is", "heb", "heeft"],
+    a: 2,
+    ex: "ik → HEB. Ik HEB een vraag. ✓"
+  }
+}, {
+  id: "basic_order",
+  title: "Basiswoordvolgorde",
+  sub: "Subject + Verb + Object",
+  color: "#D97706",
+  rule: "The simplest Dutch sentence:\nSUBJECT + VERB + REST\n\nIk eet brood. (I eat bread)\nHij drinkt koffie. (He drinks coffee)\nZij woont in Amsterdam. (She lives in Amsterdam)\n\nThe verb is ALWAYS the second element.\nFor now: keep the subject first — we'll learn inversion later.",
+  examples: [{
+    nl: "Ik drink water.",
+    en: "I drink water."
+  }, {
+    nl: "Hij leest een boek.",
+    en: "He reads a book."
+  }, {
+    nl: "Wij eten pizza.",
+    en: "We eat pizza."
+  }, {
+    nl: "Zij woont in Utrecht.",
+    en: "She lives in Utrecht."
+  }],
+  tip: "Just remember: Subject first, verb second, everything else after. 'Ik — eet — brood.' Simple and correct.",
+  quiz: {
+    q: "'She drinks coffee.' Which is correct?",
+    opts: ["Koffie zij drinkt.", "Zij drinkt koffie.", "Drinkt zij koffie.", "Zij koffie drinkt."],
+    a: 1,
+    ex: "Subject + Verb + Object: ZIJ DRINKT KOFFIE. ✓"
+  }
+}, {
+  id: "de_het_basic",
+  title: "De en Het (Basis)",
+  sub: "Articles — just learn them with the word",
+  color: "#0891B2",
+  rule: "Dutch has two definite articles:\nDE → most nouns (~75%)\nHET → neuter nouns (~25%)\n\nThe golden rule: there is no logical pattern.\nLearn EVERY noun with its article.\n\nde man, de vrouw, de fiets, de auto, de dag\nhet huis, het kind, het jaar, het boek, het werk\n\nALL plurals → always DE, never het.",
+  examples: [{
+    nl: "de man / de vrouw / de fiets",
+    en: "de-words (common gender)"
+  }, {
+    nl: "het huis / het kind / het boek",
+    en: "het-words (neuter)"
+  }, {
+    nl: "de mannen / de huizen / de kinderen",
+    en: "ALL plurals → de"
+  }, {
+    nl: "een man / een huis",
+    en: "'a' = always 'een' (no de/het!)"
+  }],
+  tip: "When in doubt, guess DE — you'll be right 75% of the time. Always learn new nouns as 'de fiets' or 'het huis', never just 'fiets'.",
+  quiz: {
+    q: "Which is correct for 'the book'?",
+    opts: ["de boek", "het boek", "een boek", "een de boek"],
+    a: 1,
+    ex: "Boek = het-word. HET BOEK. (But 'een boek' = a book, no de/het!) ✓"
+  }
+}, {
+  id: "question_words",
+  title: "Vraagwoorden",
+  sub: "Question words — wat, wie, waar, wanneer, hoe",
+  color: "#DC2626",
+  rule: "wat → what\nwie → who\nwaar → where\nwanneer → when\nhoe → how\nhoeveel → how much / how many\nwaarom → why\nwelke → which\n\nBasic pattern: QUESTION WORD + VERB + SUBJECT\nWaar WOON jij? — Where do you live?\nHoe HEET jij? — What is your name? (lit: how are you called?)",
+  examples: [{
+    nl: "Wat is je naam?",
+    en: "What is your name?"
+  }, {
+    nl: "Waar woon je?",
+    en: "Where do you live?"
+  }, {
+    nl: "Hoe oud ben je?",
+    en: "How old are you?"
+  }, {
+    nl: "Hoeveel kost dit?",
+    en: "How much does this cost?"
+  }],
+  tip: "'Hoe heet je?' (literally 'how are you called?') = What is your name? Learn this phrase whole — it's the most common opening question.",
+  quiz: {
+    q: "'How much does this cost?' Which question word?",
+    opts: ["Wat kost dit?", "Waarom kost dit?", "Hoeveel kost dit?", "Wie kost dit?"],
+    a: 2,
+    ex: "Hoeveel = how much/many. HOEVEEL kost dit? ✓"
+  }
+}, {
+  id: "niet_basic",
+  title: "Ontkenning met Niet",
+  sub: "Negation — saying no",
+  color: "#16A34A",
+  rule: "NIET = not\nPlace niet:\n→ At the END of the sentence (most common)\n→ BEFORE adjectives\n→ BEFORE infinitives\n\nIk werk niet. (I don't work — end)\nHij is niet ziek. (He isn't ill — before adjective)\nIk ga niet slapen. (I'm not going to sleep — before infinitive)\n\nNot yet: geen (that comes at A2!)",
+  examples: [{
+    nl: "Ik begrijp het niet.",
+    en: "I don't understand."
+  }, {
+    nl: "Hij is niet thuis.",
+    en: "He is not at home."
+  }, {
+    nl: "Zij werkt niet vandaag.",
+    en: "She is not working today."
+  }, {
+    nl: "Ik spreek geen Engels. (geen + noun)",
+    en: "I don't speak English."
+  }],
+  tip: "When unsure where to put 'niet': put it at the very end. 90% of the time that is correct. 'Ik snap het NIET.' ✓",
+  quiz: {
+    q: "'I don't understand.' Which is correct?",
+    opts: ["Niet ik begrijp het.", "Ik begrijp niet het.", "Ik begrijp het niet.", "Ik niet begrijp het."],
+    a: 2,
+    ex: "Niet goes at the END: Ik begrijp het NIET. ✓"
+  }
+}, {
+  id: "willen_basic",
+  title: "Willen en Mogen",
+  sub: "Wanting and asking politely",
+  color: "#7C3AED",
+  rule: "willen = to want\nik WIL / jij WIL(T) / hij WIL / wij WILLEN\n\nmogen = may / to be allowed\nik MAG / jij MAG / hij MAG / wij MOGEN\n\nPolite requests:\n'Mag ik...?' = May I have...? (most polite)\n'Ik wil graag...' = I would like... (very common)\n'Wilt u...?' = Would you like...? (formal)\n\nAlways: modal verb + infinitive at END",
+  examples: [{
+    nl: "Ik wil graag een koffie.",
+    en: "I would like a coffee."
+  }, {
+    nl: "Mag ik de rekening?",
+    en: "May I have the bill?"
+  }, {
+    nl: "Wil jij ook thee?",
+    en: "Would you like tea too?"
+  }, {
+    nl: "Mag ik hier zitten?",
+    en: "May I sit here?"
+  }],
+  tip: "'Mag ik...?' is your survival phrase in shops, restaurants and cafés. Learn it first. Always use it with a smile — Dutch people appreciate politeness.",
+  quiz: {
+    q: "'May I have the menu?' Which is correct?",
+    opts: ["Ik wil de menukaart.", "Mag ik de menukaart?", "Wil ik de menukaart?", "Mogen de menukaart?"],
+    a: 1,
+    ex: "Polite request: MAG IK de menukaart? ✓"
+  }
+}];
+
+// ─── EXTRA WORDS (~200 more to reach 500 total) ───────────────────────────────
+// Add these inside each topic's words array, or keep as a 7th topic
+
+const TOPICS_A1_EXTRA = [
+// ── 7. THUIS & SPULLEN ─────────────────────────────────────────────────────
+{
+  id: "home",
+  title: "Thuis & Spullen",
+  english: "Home & Objects",
+  icon: "🏠",
+  color: "#059669",
+  words: [w("de tafel", "the table", "De tafel staat in de keuken.", "The table is in the kitchen."), w("de stoel", "the chair", "Ga zitten op de stoel.", "Sit down on the chair."), w("het bed", "the bed", "Ik ga naar bed.", "I am going to bed."), w("de bank", "the sofa / couch", "Ik zit op de bank te lezen.", "I am sitting on the sofa reading."), w("de keuken", "the kitchen", "Ik kook in de keuken.", "I cook in the kitchen."), w("de slaapkamer", "the bedroom", "Mijn slaapkamer is boven.", "My bedroom is upstairs."), w("de badkamer", "the bathroom", "De badkamer is rechts.", "The bathroom is on the right."), w("de woonkamer", "the living room", "We zitten in de woonkamer.", "We are sitting in the living room."), w("het raam", "the window", "Het raam is open.", "The window is open."), w("de deur", "the door", "Doe de deur dicht.", "Close the door."), w("de lamp", "the lamp", "Doe de lamp aan.", "Turn the lamp on."), w("de televisie", "the television", "Ik kijk televisie.", "I am watching television."), w("de computer", "the computer", "Ik werk op mijn computer.", "I work on my computer."), w("de telefoon", "the telephone", "Mijn telefoon is kapot.", "My phone is broken."), w("het boek", "the book", "Ik lees een boek.", "I am reading a book."), w("de tas", "the bag", "Mijn tas is zwaar.", "My bag is heavy."), w("de jas", "the coat / jacket", "Doe je jas aan, het is koud.", "Put your coat on, it is cold."), w("de schoenen", "the shoes", "Mijn schoenen zijn nieuw.", "My shoes are new."), w("het geld", "the money", "Ik heb geen geld meer.", "I have no money left."), w("de euro", "the euro", "Het kost twee euro.", "It costs two euros."), w("betalen", "to pay", "Hoe wil je betalen?", "How would you like to pay?"), w("pinnen", "to pay by card", "Kan ik pinnen?", "Can I pay by card?"), w("kopen", "to buy", "Ik wil dit kopen.", "I want to buy this."), w("verkopen", "to sell", "Zij verkoopt bloemen.", "She sells flowers."), w("de bloem", "the flower", "Tulpen zijn Nederlandse bloemen.", "Tulips are Dutch flowers."), w("de hond", "the dog", "Mijn hond heet Max.", "My dog is called Max."), w("de kat", "the cat", "De kat slaapt op het bed.", "The cat is sleeping on the bed."), w("groot", "big", "Het huis is groot.", "The house is big."), w("schoon", "clean", "De kamer is schoon.", "The room is clean."), w("vies", "dirty", "Mijn handen zijn vies.", "My hands are dirty."), w("aan", "on / switched on", "De lamp is aan.", "The lamp is on."), w("uit", "off / out", "De televisie is uit.", "The television is off."), w("open doen", "to open", "Doe het raam open.", "Open the window."), w("dichtdoen", "to close", "Doe de deur dicht.", "Close the door."), w("zoeken", "to look for", "Ik zoek mijn sleutel.", "I am looking for my key."), w("vinden", "to find", "Heb je je sleutel gevonden?", "Have you found your key?"), w("vergeten", "to forget", "Ik heb mijn paspoort vergeten.", "I have forgotten my passport."), w("meenemen", "to take with you", "Neem je paraplu mee.", "Take your umbrella with you."), w("de paraplu", "the umbrella", "Ik heb mijn paraplu nodig.", "I need my umbrella."), w("de bril", "the glasses", "Ik kan niet lezen zonder bril.", "I cannot read without glasses."), w("het paspoort", "the passport", "Heb je je paspoort bij je?", "Do you have your passport with you?"), w("de portemonnee", "the wallet", "Ik heb mijn portemonnee verloren.", "I have lost my wallet."), w("helpen", "to help", "Kunt u mij helpen?", "Can you help me?"), w("begrijpen", "to understand", "Ik begrijp het nu.", "I understand it now."), w("horen", "to hear", "Ik hoor je niet goed.", "I cannot hear you well."), w("zien", "to see", "Ik zie de toren niet.", "I cannot see the tower."), w("denken", "to think", "Ik denk dat je gelijk hebt.", "I think you are right."), w("weten", "to know (a fact)", "Ik weet het niet.", "I don't know."), w("kennen", "to know (a person/place)", "Ken je Amsterdam?", "Do you know Amsterdam?"), w("leven", "to live", "Zij leven in Amsterdam.", "They live in Amsterdam."), w("heten", "to be called", "Hoe heet jij?", "What are you called?")]
+},
+// ── 8. WERKWOORDEN KERN ─────────────────────────────────────────────────────
+{
+  id: "core_verbs",
+  title: "Kernwerkwoorden",
+  english: "Core Verbs",
+  icon: "⚡",
+  color: "#7C3AED",
+  words: [w("zijn", "to be", "Ik ben moe.", "I am tired."), w("hebben", "to have", "Ik heb honger.", "I am hungry."), w("gaan", "to go", "Ik ga naar huis.", "I am going home."), w("komen", "to come", "Kom je vanavond?", "Are you coming tonight?"), w("doen", "to do", "Wat doe je vandaag?", "What are you doing today?"), w("maken", "to make", "Ik maak een sandwich.", "I am making a sandwich."), w("zeggen", "to say", "Wat zeg je?", "What are you saying?"), w("vragen", "to ask", "Mag ik iets vragen?", "May I ask something?"), w("antwoorden", "to answer", "Kun je mijn vraag beantwoorden?", "Can you answer my question?"), w("lezen", "to read", "Ik lees elke dag de krant.", "I read the newspaper every day."), w("schrijven", "to write", "Schrijf je naam hier.", "Write your name here."), w("spreken", "to speak", "Spreek je Nederlands?", "Do you speak Dutch?"), w("luisteren", "to listen", "Luister goed.", "Listen carefully."), w("herhalen", "to repeat", "Kunt u dat herhalen?", "Can you repeat that?"), w("spellen", "to spell", "Kunt u dat spellen?", "Can you spell that?"), w("wachten", "to wait", "Wacht even!", "Wait a moment!"), w("stoppen", "to stop", "De bus stopt hier.", "The bus stops here."), w("beginnen", "to begin / start", "De les begint nu.", "The lesson starts now."), w("eindigen", "to end / finish", "De film eindigt om tien uur.", "The film ends at ten o'clock."), w("openen", "to open", "De winkel opent om negen uur.", "The shop opens at nine o'clock."), w("sluiten", "to close", "De bank sluit om vijf uur.", "The bank closes at five o'clock."), w("betalen", "to pay", "Ik betaal met mijn telefoon.", "I pay with my phone."), w("reserveren", "to reserve", "Ik wil een tafel reserveren.", "I want to reserve a table."), w("bellen", "to call (phone)", "Ik bel je morgen.", "I will call you tomorrow."), w("sturen", "to send", "Ik stuur je een bericht.", "I am sending you a message."), w("ontvangen", "to receive", "Heb je mijn bericht ontvangen?", "Did you receive my message?"), w("geven", "to give", "Geef mij je nummer.", "Give me your number."), w("nemen", "to take", "Ik neem de bus.", "I am taking the bus."), w("brengen", "to bring", "Breng je iets mee?", "Are you bringing something?"), w("halen", "to fetch / get", "Ik ga geld halen.", "I am going to get some money."), w("zetten", "to put / place", "Zet de tas op de tafel.", "Put the bag on the table."), w("leggen", "to lay / put down", "Leg het boek hier neer.", "Put the book down here."), w("staan", "to stand", "Ik sta al tien minuten.", "I have been standing for ten minutes."), w("zitten", "to sit", "Ga zitten, alstublieft.", "Please sit down."), w("liggen", "to lie", "Het boek ligt op tafel.", "The book is lying on the table."), w("lopen", "to walk / to run", "Ik loop naar het station.", "I am walking to the station."), w("rennen", "to run", "Hij rent naar de bus.", "He is running for the bus."), w("zwemmen", "to swim", "Ik zwem elke week.", "I swim every week."), w("spelen", "to play", "De kinderen spelen buiten.", "The children are playing outside."), w("werken", "to work", "Ik werk vijf dagen per week.", "I work five days a week."), w("leren", "to learn", "Ik leer Nederlands.", "I am learning Dutch."), w("oefenen", "to practise", "Ik oefen elke dag.", "I practise every day."), w("vergelijken", "to compare", "Vergelijk de twee prijzen.", "Compare the two prices."), w("kiezen", "to choose", "Kies een antwoord.", "Choose an answer."), w("proberen", "to try", "Probeer het nog een keer.", "Try it one more time."), w("moeten", "must / have to", "Ik moet nu gaan.", "I must go now."), w("kunnen", "can / to be able to", "Kun je mij helpen?", "Can you help me?"), w("willen", "to want", "Ik wil koffie.", "I want coffee."), w("mogen", "may / to be allowed to", "Mag ik hier zitten?", "May I sit here?"), w("hoeven", "to need to (negation)", "Je hoeft niet te betalen.", "You don't need to pay."), w("zullen", "shall / will", "Zullen we gaan?", "Shall we go?")]
+}];
+
+// ─── HOW TO MERGE ──────────────────────────────────────────────────────────────
+// In dutch-a2-app.jsx, find "const TOPICS = [" and replace with:
+//
+// const TOPICS_A2 = [  ... existing topics ... ];
+//
+// const TOPICS_A1_ALL = [...TOPICS_A1, ...TOPICS_A1_EXTRA];
+//
+// Then add a level prop to the app and switch:
+// const TOPICS = appLevel === 'a1' ? TOPICS_A1_ALL : TOPICS_A2;
+//
+// Grammar: const GRAMMAR_FULL = appLevel === 'a1' ? GRAMMAR_A1 : GRAMMAR_A2;
+//
+// Total A1 word count: ~503 words across 8 topics
+// Total A1 grammar rules: 8
+
+// ─── FINAL 95 WORDS — mixed essential A1 ─────────────────────────────────────
+const TOPICS_A1_BONUS = [{
+  id: "essential",
+  title: "Essentieel A1",
+  english: "Essential A1 Mix",
+  icon: "⭐",
+  color: "#B45309",
+  words: [w("de verjaardag", "the birthday", "Wanneer is je verjaardag?", "When is your birthday?"), w("het cadeau", "the gift", "Ik heb een cadeau voor je.", "I have a gift for you."), w("de feestdag", "the holiday / celebration", "Kerst is een feestdag.", "Christmas is a holiday."), w("het feest", "the party", "Er is een feest vanavond.", "There is a party tonight."), w("de muziek", "the music", "Ik luister naar muziek.", "I listen to music."), w("de film", "the film / movie", "Welke film wil je zien?", "Which film do you want to see?"), w("het theater", "the theatre", "We gaan naar het theater.", "We are going to the theatre."), w("het museum", "the museum", "Het Rijksmuseum is een beroemd museum.", "The Rijksmuseum is a famous museum."), w("de sport", "the sport", "Welke sport doe jij?", "Which sport do you do?"), w("het voetbal", "football / soccer", "Nederland is goed in voetbal.", "The Netherlands is good at football."), w("wandelen", "to walk / to hike", "Ik ga wandelen in het bos.", "I am going walking in the forest."), w("het zwembad", "the swimming pool", "Het zwembad is open in de zomer.", "The swimming pool is open in summer."), w("de natuur", "nature", "Ik houd van de natuur.", "I love nature."), w("het bos", "the forest / wood", "We lopen in het bos.", "We are walking in the forest."), w("de zee", "the sea", "In de zomer ga ik naar de zee.", "In summer I go to the sea."), w("het strand", "the beach", "Het strand is mooi in de zomer.", "The beach is beautiful in summer."), w("de berg", "the mountain", "Nederland heeft geen bergen.", "The Netherlands has no mountains."), w("de rivier", "the river", "De Rijn is een grote rivier.", "The Rhine is a large river."), w("de zomer", "summer", "In de zomer is het warm.", "In summer it is warm."), w("de winter", "winter", "In de winter is het koud.", "In winter it is cold."), w("de lente", "spring", "In de lente bloeien de tulpen.", "In spring the tulips bloom."), w("de herfst", "autumn", "In de herfst vallen de bladeren.", "In autumn the leaves fall."), w("vandaag is het...", "today it is...", "Vandaag is het maandag.", "Today it is Monday."), w("de klok", "the clock", "De klok staat op drie uur.", "The clock says three o'clock."), w("het horloge", "the watch", "Ik heb geen horloge.", "I don't have a watch."), w("de ochtend", "the morning", "In de ochtend drink ik koffie.", "In the morning I drink coffee."), w("de middag", "the afternoon", "In de middag ga ik wandelen.", "In the afternoon I go walking."), w("de avond", "the evening", "In de avond lees ik een boek.", "In the evening I read a book."), w("de nacht", "the night", "In de nacht slaap ik.", "At night I sleep."), w("elke dag", "every day", "Ik oefen elke dag.", "I practise every day."), w("soms", "sometimes", "Ik ga soms naar de bioscoop.", "I sometimes go to the cinema."), w("altijd", "always", "Ik drink altijd koffie 's ochtends.", "I always drink coffee in the morning."), w("nooit", "never", "Ik rook nooit.", "I never smoke."), w("vaak", "often", "Ik ga vaak fietsen.", "I often go cycling."), w("bijna", "almost / nearly", "Ik ben er bijna.", "I am almost there."), w("ook", "also / too", "Ik spreek ook Duits.", "I also speak German."), w("maar", "but", "Ik wil gaan, maar ik ben moe.", "I want to go, but I am tired."), w("en", "and", "Ik spreek Nederlands en Engels.", "I speak Dutch and English."), w("of", "or", "Koffie of thee?", "Coffee or tea?"), w("want", "because (normal order)", "Ik blijf thuis want ik ben ziek.", "I am staying home because I am ill."), w("dus", "so / therefore", "Ik ben moe, dus ik ga slapen.", "I am tired, so I am going to sleep."), w("hier is...", "here is...", "Hier is je koffie.", "Here is your coffee."), w("dit is...", "this is...", "Dit is mijn vriend.", "This is my friend."), w("dat is...", "that is...", "Dat is het station.", "That is the station."), w("er is / er zijn", "there is / there are", "Er is een probleem.", "There is a problem."), w("hetzelfde", "the same", "Dat is hetzelfde.", "That is the same."), w("anders", "different", "Dit is anders.", "This is different."), w("meer", "more", "Ik wil meer water.", "I want more water."), w("minder", "less", "Ik wil minder suiker.", "I want less sugar."), w("genoeg", "enough", "Dat is genoeg, dank je.", "That is enough, thank you."), w("te veel", "too much", "Dat is te veel geld.", "That is too much money."), w("een beetje", "a little", "Ik spreek een beetje Nederlands.", "I speak a little Dutch."), w("veel", "a lot / many", "Ik heb veel vragen.", "I have many questions."), w("weinig", "little / few", "Ik heb weinig tijd.", "I have little time."), w("alle", "all", "Alle studenten zijn hier.", "All students are here."), w("iets", "something", "Kan ik iets voor u doen?", "Can I do something for you?"), w("niets", "nothing", "Ik heb niets gegeten.", "I have eaten nothing."), w("iemand", "someone", "Iemand heeft gebeld.", "Someone called."), w("niemand", "nobody", "Niemand is thuis.", "Nobody is home."), w("overal", "everywhere", "Fietsen zijn overal in Nederland.", "Bicycles are everywhere in the Netherlands."), w("ergens", "somewhere", "Ik heb hem ergens gezien.", "I saw him somewhere."), w("nergens", "nowhere", "Ik kan het nergens vinden.", "I can find it nowhere."), w("voor", "for / before / in front of", "Dit is voor jou.", "This is for you."), w("na", "after / behind", "Na het werk ga ik sporten.", "After work I am going to exercise."), w("met", "with", "Ik ga met de trein.", "I am going by train."), w("zonder", "without", "Ik kan niet leven zonder koffie.", "I cannot live without coffee."), w("over", "about / over / in (time)", "We praten over het werk.", "We are talking about work."), w("door", "through / by / because of", "Ik rij door de stad.", "I drive through the city."), w("bij", "near / at / with", "Ik ben bij de supermarkt.", "I am at the supermarket."), w("naar", "to / towards", "Ik ga naar Amsterdam.", "I am going to Amsterdam."), w("van", "from / of", "Ik kom van de markt.", "I come from the market."), w("uit", "out of / from", "Ik kom uit Nederland.", "I come from the Netherlands."), w("in", "in", "Ik woon in Amsterdam.", "I live in Amsterdam."), w("op", "on / at", "De tas ligt op tafel.", "The bag is on the table."), w("onder", "under / below", "De kat zit onder de tafel.", "The cat is under the table."), w("boven", "above / upstairs", "Mijn kamer is boven.", "My room is upstairs."), w("naast", "next to / beside", "De bakker zit naast de supermarkt.", "The bakery is next to the supermarket."), w("tussen", "between", "De bank is tussen de winkel en het café.", "The bank is between the shop and the café."), w("achter", "behind", "De fiets staat achter het huis.", "The bicycle is behind the house."), w("voor", "in front of", "De auto staat voor de deur.", "The car is in front of the door."), w("te", "to (infinitive marker) / too", "Ik ga nu slapen. / Het is te duur.", "I am going to sleep now. / It is too expensive."), w("erg", "very", "Het is erg warm.", "It is very warm."), w("heel", "very / whole", "Ik ben heel moe.", "I am very tired."), w("wel", "indeed / quite", "Het is wel duur.", "It is quite expensive."), w("nog", "still / yet", "Ik woon nog in Amsterdam.", "I still live in Amsterdam."), w("al", "already", "Ben je al klaar?", "Are you already done?"), w("nog niet", "not yet", "Ik ben nog niet klaar.", "I am not yet done."), w("klaar zijn", "to be done / finished", "Ik ben klaar.", "I am done."), w("zeker", "certain / sure", "Ik ben er zeker van.", "I am sure of it."), w("misschien", "maybe / perhaps", "Misschien morgen.", "Maybe tomorrow."), w("waarschijnlijk", "probably", "Het gaat waarschijnlijk regenen.", "It will probably rain."), w("eigenlijk", "actually / really", "Eigenlijk ben ik moe.", "Actually I am tired."), w("gewoon", "just / simply / ordinary", "Ik doe het gewoon.", "I just do it.")]
+}];
+
+// TOTAL: TOPICS_A1 (303) + TOPICS_A1_EXTRA (102) + TOPICS_A1_BONUS (95) = 500 words
+// Usage in app:
+// const TOPICS = [...TOPICS_A1, ...TOPICS_A1_EXTRA, ...TOPICS_A1_BONUS];
+
 // ─── VOCABULARY ───────────────────────────────────────────────────────────────
-const TOPICS = [{
+const TOPICS_A2 = [{
   id: "daily",
   title: "Dagelijks Leven",
   english: "Daily Life",
@@ -296,9 +608,9 @@ function shuffle(a) {
 function timeEst(n) {
   return `±${Math.max(1, Math.ceil(n * 25 / 60))} min`;
 }
-function getNewWords(srs) {
+function getNewWords(srs, level = "a2") {
   const result = [];
-  for (const topic of TOPICS) {
+  for (const topic of getLevelTopics(level)) {
     for (let i = 0; i < topic.words.length; i++) {
       const key = `${topic.id}:${i}`;
       if (!srs[key]) {
@@ -318,7 +630,7 @@ function getNewWords(srs) {
   return result;
 }
 function buildQuizOpts(word) {
-  const allEn = TOPICS.flatMap(tp => tp.words).map(ww => ww.en);
+  const allEn = [...getLevelTopics("a1"), ...getLevelTopics("a2")].flatMap(tp => tp.words).map(ww => ww.en);
   const wrong = shuffle(allEn.filter(en => en !== word.en)).slice(0, 3);
   return shuffle([word.en, ...wrong]);
 }
@@ -338,7 +650,10 @@ const emptyStore = () => ({
   settings: {
     dark: false,
     lang: 'en',
-    dailyGoal: 20
+    dailyGoal: 20,
+    level: 'a2',
+    typingMode: false,
+    clozeMode: false
   }
 });
 function seedStore(s) {
@@ -364,6 +679,18 @@ function seedStore(s) {
     ...base.settings,
     dailyGoal: 20
   };
+  if (!base.settings.level) base.settings = {
+    ...base.settings,
+    level: 'a2'
+  };
+  if (base.settings.typingMode === undefined) base.settings = {
+    ...base.settings,
+    typingMode: false
+  };
+  if (base.settings.clozeMode === undefined) base.settings = {
+    ...base.settings,
+    clozeMode: false
+  };
   if (!base.progress.reviewedToday) base.progress = {
     ...base.progress,
     reviewedToday: [],
@@ -371,7 +698,8 @@ function seedStore(s) {
   };
   if (Object.keys(base.srs).length > 0) return base;
   const srs = {};
-  const topic = TOPICS[0];
+  const seedLevel = base.settings?.level || 'a2';
+  const topic = getLevelTopics(seedLevel)[0];
   const now = new Date().toISOString();
   for (let i = 0; i < 30; i++) {
     srs[`${topic.id}:${i}`] = {
@@ -388,7 +716,7 @@ function seedStore(s) {
 }
 
 // ─── GRAMMAR HELPERS ──────────────────────────────────────────────────────────
-const GRAMMAR_FULL = [{
+const GRAMMAR_A2 = [{
   id: "present",
   title: "Tegenwoordige Tijd",
   sub: "Present tense",
@@ -649,17 +977,30 @@ const GRAMMAR_FULL = [{
     ex: "All three are correct! Ga = plan, zullen = certain, present+morgen = schedule. ✓"
   }
 }];
-function getNextGrammarLesson(grSrs) {
-  for (const g of GRAMMAR_FULL) {
+
+// ─── LEVEL SWITCH ─────────────────────────────────────────────────────────────
+// Reads from store.settings.level — 'a1' or 'a2'
+// All components reference TOPICS and GRAMMAR_FULL — dynamically set per level
+function getLevel(settings) {
+  return settings?.level || 'a2';
+}
+function getLevelTopics(level) {
+  return level === 'a1' ? [...TOPICS_A1, ...TOPICS_A1_EXTRA, ...TOPICS_A1_BONUS] : TOPICS_A2;
+}
+function getLevelGrammar(level) {
+  return level === 'a1' ? GRAMMAR_A1 : GRAMMAR_A2;
+}
+function getNextGrammarLesson(grSrs, level = "a2") {
+  for (const g of getLevelGrammar(level)) {
     if (!grSrs[g.id]) return g; // not yet learned
   }
   return null; // all done
 }
-function getDueGrammar(grSrs) {
+function getDueGrammar(grSrs, level = "a2") {
   const due = [];
   for (const [id, card] of Object.entries(grSrs)) {
     if (isDue(card)) {
-      const rule = GRAMMAR_FULL.find(g => g.id === id);
+      const rule = getLevelGrammar(level).find(g => g.id === id);
       if (rule) due.push({
         ...rule,
         key: id
@@ -670,17 +1011,30 @@ function getDueGrammar(grSrs) {
 }
 async function loadStore() {
   try {
-    const r = await window.storage.get(SK);
-    const raw = r && r.value ? JSON.parse(r.value) : emptyStore();
-    return seedStore(raw);
+    let raw = null;
+    try {
+      // Claude artifact sandbox
+      const r = await window.storage.get(SK);
+      raw = r && r.value ? r.value : null;
+    } catch {
+      // Browser / GitHub Pages
+      raw = localStorage.getItem(SK);
+    }
+    const parsed = raw ? JSON.parse(raw) : emptyStore();
+    return seedStore(parsed);
   } catch {
     return seedStore(emptyStore());
   }
 }
 async function saveStore(d) {
+  const s = JSON.stringify(d);
   try {
-    await window.storage.set(SK, JSON.stringify(d));
-  } catch {}
+    await window.storage.set(SK, s);
+  } catch {
+    try {
+      localStorage.setItem(SK, s);
+    } catch {}
+  }
 }
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
@@ -692,7 +1046,7 @@ function getDueCards(srs, limit = null, reviewedToday = []) {
     // Never show a card more than once per calendar day
     if (reviewedToday.includes(key)) continue;
     const [topicId, idxStr] = key.split(":");
-    const topic = TOPICS.find(tp => tp.id === topicId);
+    const topic = getLevelTopics("a2").concat(getLevelTopics("a1")).find(tp => tp.id === topicId);
     if (topic && topic.words[+idxStr]) {
       due.push({
         ...topic.words[+idxStr],
@@ -912,6 +1266,7 @@ const S = `
   --accent-text: #93C5FD;
   --success: #4ADE80;
   --ok: #4ADE80;
+  --ok-bg: #052e16;
   --ok-bg: #052E16;
   --ok-text: #86EFAC;
   --ok-border: #166534;
@@ -1044,18 +1399,14 @@ body {
 .review-time { font-size: 12px; font-weight: 500; color: var(--text2); text-align: center; padding: 0 16px 8px; }
 
 /* Card flip */
-.flip-scene { perspective: 900px; margin: 0 16px 12px; }
-.flip-card {
-  position: relative; transition: transform .22s ease-out;
-  transform-style: preserve-3d; border-radius: var(--radius);
-}
-.flip-card.flipped { transform: rotateY(180deg); }
+.flip-scene { margin: 0 16px 12px; }
+.flip-card { border-radius: var(--radius); position: relative; }
 .flip-face {
-  backface-visibility: hidden; -webkit-backface-visibility: hidden;
   background: var(--surface); border-radius: var(--radius);
   box-shadow: var(--shadow); padding: 20px 20px 16px;
 }
-.flip-back { position: absolute; inset: 0; transform: rotateY(180deg); }
+.flip-face-front { animation: cardFadeIn .18s ease-out; }
+.flip-face-back { animation: cardFadeIn .18s ease-out; }
 
 .rcard { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); margin: 0 16px 12px; padding: 24px 20px; }
 .rcard-topic { margin-bottom: 16px; }
@@ -1380,41 +1731,87 @@ function VerbForms({
   }, "wij ", /*#__PURE__*/React.createElement("strong", null, base)));
 }
 
+// ─── TYPING MODE HELPERS ──────────────────────────────────────────────────────
+function normalise(str) {
+  return str.trim().toLowerCase().replace(/^(de|het|een)\s+/i, '') // strip article
+  .replace(/[.,!?]/g, '') // strip punctuation
+  .trim();
+}
+function isMatch(typed, answer) {
+  const t = normalise(typed);
+  const a = normalise(answer);
+  if (t === a) return true;
+  // Allow missing article: "huis" matches "het huis"
+  if (t === normalise(answer.replace(/^(de|het|een)\s+/i, ''))) return true;
+  return false;
+}
+
+// Fuzzy match for typing mode
+function fuzzyMatch(input, answer) {
+  const clean = s => s.toLowerCase().trim().replace(/^(de|het|een)\s+/i, '') // strip articles
+  .replace(/[.,!?]/g, ''); // strip punctuation
+  return clean(input) === clean(answer);
+}
+
+// ─── CLOZE HELPERS ─────────────────────────────────────────────────────────
+// Build a cloze card from a regular vocab card
+function buildClozeCard(card) {
+  const sentence = card.ex_nl;
+  if (!sentence) return null;
+  // Find the Dutch word (or its base form) in the sentence
+  const target = card.nl.replace(/^(de|het|een)\s+/i, '').split('/')[0].trim();
+  const regex = new RegExp('\\b' + target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+  if (!regex.test(sentence)) return null;
+  const blanked = sentence.replace(regex, '___');
+  return {
+    ...card,
+    isCloze: true,
+    blanked,
+    target
+  };
+}
+
+// Distractor options from same topic words
+function buildClozeOptions(card, allCards) {
+  const target = card.target;
+  const sameTopicWords = allCards.filter(c => c.topicId === card.topicId && c.nl !== card.nl).map(c => c.nl.replace(/^(de|het|een)\s+/i, '').split('/')[0].trim()).filter((v, i, a) => a.indexOf(v) === i && v.length > 1 && v !== target);
+  const distractors = shuffle(sameTopicWords).slice(0, 3);
+  while (distractors.length < 3) distractors.push(['groot', 'klein', 'goed'][distractors.length]);
+  return shuffle([target, ...distractors]);
+}
+
 // ─── REVIEW SCREEN ────────────────────────────────────────────────────────────
 function ReviewScreen({
   store,
   persist,
   onBack,
-  lang
+  lang,
+  typingMode = false,
+  clozeMode = false
 }) {
   const t = T[lang];
   const [queue] = useState(() => {
     const rt = store.progress.lastDate === todayStr() ? store.progress.reviewedToday || [] : [];
-    return getDueCards(store.srs, store.settings?.dailyGoal || 20, rt);
+    const base = getDueCards(store.srs, store.settings?.dailyGoal || 20, rt);
+    if (!clozeMode) return base;
+    // Every 3rd card: try to make it a cloze card
+    return base.map((card, i) => {
+      if ((i + 1) % 3 !== 0) return card;
+      const cloze = buildClozeCard(card);
+      return cloze || card;
+    });
   });
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [phase, setPhase] = useState("front"); // front | back | feedback
+  const [phase, setPhase] = useState("front"); // front | back
   const [lastQuality, setLastQuality] = useState(null);
+  const ratingInFlight = React.useRef(false);
   const [sessionCorrect, setSessionCorrect] = useState(0);
-  const [countdown, setCountdown] = useState(null);
+  const [sessionHard, setSessionHard] = useState([]); // cards rated Moeilijk
+  const [typed, setTyped] = useState('');
+  const [typingResult, setTypingResult] = useState(null); // null | 'correct' | 'wrong'
+  const [clozeResult, setClozeResult] = useState(null); // null | 'correct' | 'wrong'
 
-  // Countdown timer for feedback screen
-  useEffect(() => {
-    if (phase !== "feedback") return;
-    setCountdown(3);
-    const iv = setInterval(() => {
-      setCountdown(c => {
-        if (c <= 1) {
-          clearInterval(iv);
-          nextCard();
-          return null;
-        }
-        return c - 1;
-      });
-    }, 1000);
-    return () => clearInterval(iv);
-  }, [phase, idx]);
   const total = queue.length;
   const remaining = total - idx;
   const card = queue[idx];
@@ -1443,6 +1840,8 @@ function ReviewScreen({
   }
   if (idx >= total) {
     const accuracy = Math.round(sessionCorrect / total * 100);
+    const hardCount = sessionHard.length;
+    const easyCount = total - hardCount - (total - sessionCorrect - hardCount);
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "review-header"
     }, /*#__PURE__*/React.createElement("button", {
@@ -1458,9 +1857,9 @@ function ReviewScreen({
       className: "complete-check"
     }, "\u2713")), /*#__PURE__*/React.createElement("div", {
       className: "complete-title"
-    }, "Klaar voor vandaag"), /*#__PURE__*/React.createElement("div", {
+    }, lang === 'nl' ? 'Klaar voor vandaag' : 'Done for today'), /*#__PURE__*/React.createElement("div", {
       className: "complete-sub"
-    }, "Goed gedaan. Tot morgen!"), /*#__PURE__*/React.createElement("div", {
+    }, lang === 'nl' ? 'Goed gedaan. Tot morgen!' : 'Well done. See you tomorrow!'), /*#__PURE__*/React.createElement("div", {
       className: "complete-stats"
     }, /*#__PURE__*/React.createElement("div", {
       className: "cs-card"
@@ -1468,29 +1867,92 @@ function ReviewScreen({
       className: "cs-n"
     }, total), /*#__PURE__*/React.createElement("div", {
       className: "cs-l"
-    }, t.reviewed)), /*#__PURE__*/React.createElement("div", {
+    }, lang === 'nl' ? 'Herhaald' : 'Reviewed')), /*#__PURE__*/React.createElement("div", {
       className: "cs-card"
     }, /*#__PURE__*/React.createElement("div", {
       className: "cs-n"
     }, accuracy, "%"), /*#__PURE__*/React.createElement("div", {
       className: "cs-l"
-    }, t.retention))), /*#__PURE__*/React.createElement("div", {
+    }, lang === 'nl' ? 'Correct' : 'Correct')), /*#__PURE__*/React.createElement("div", {
+      className: "cs-card"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "cs-n"
+    }, sessionCorrect), /*#__PURE__*/React.createElement("div", {
+      className: "cs-l"
+    }, lang === 'nl' ? 'Goed/Makkelijk' : 'Good/Easy')), /*#__PURE__*/React.createElement("div", {
+      className: "cs-card"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "cs-n"
+    }, hardCount), /*#__PURE__*/React.createElement("div", {
+      className: "cs-l"
+    }, lang === 'nl' ? 'Moeilijk' : 'Hard'))), sessionHard.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "var(--surface)",
+        borderRadius: "var(--radius)",
+        padding: "14px 16px",
+        boxShadow: "var(--shadow)",
+        marginBottom: 16,
+        textAlign: "left",
+        width: "100%"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: 1,
+        color: "var(--text2)",
+        marginBottom: 10
+      }
+    }, lang === 'nl' ? 'Moeilijke woorden — kom morgen terug' : 'Hard words — coming back tomorrow'), sessionHard.slice(0, 5).map((c, i) => /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "6px 0",
+        borderBottom: "1px solid var(--border)"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 700,
+        color: "var(--text)",
+        fontSize: 14
+      }
+    }, c.nl), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "var(--text2)",
+        fontSize: 14
+      }
+    }, c.en))), sessionHard.length > 5 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "var(--text2)",
+        marginTop: 6
+      }
+    }, "+", sessionHard.length - 5, " ", lang === 'nl' ? 'meer' : 'more')), /*#__PURE__*/React.createElement("div", {
       className: "next-review-note"
     }, /*#__PURE__*/React.createElement("div", {
       className: "nrn-label"
-    }, "Volgende review"), /*#__PURE__*/React.createElement("div", {
+    }, lang === 'nl' ? 'Volgende review' : 'Next review'), /*#__PURE__*/React.createElement("div", {
       className: "nrn-val"
-    }, "Morgen \xB7 ", timeEst(total))), /*#__PURE__*/React.createElement("button", {
+    }, lang === 'nl' ? 'Morgen' : 'Tomorrow', " \xB7 ", timeEst(total))), /*#__PURE__*/React.createElement("button", {
       className: "btn btn-primary",
       onClick: onBack
-    }, "Terug")));
+    }, lang === 'nl' ? 'Terug naar home' : 'Back to home')));
   }
   function reveal() {
     setFlipped(true);
-    setTimeout(() => setPhase("back"), 110); // show back content halfway through flip
+    setTimeout(() => setPhase("back"), 110);
   }
-  function rate(quality, showFeedback = false) {
-    if (lastQuality !== null) return;
+  function submitTyped() {
+    if (!typed.trim()) return;
+    const correct = isMatch(typed, card.nl);
+    setTypingResult(correct ? 'correct' : 'wrong');
+    if (correct) setSessionCorrect(n => n + 1);else setSessionHard(h => [...h, card]);
+  }
+  function rate(quality) {
+    if (ratingInFlight.current) return;
+    ratingInFlight.current = true;
     const newSrs = {
       ...store.srs,
       [card.key]: smSchedule(store.srs[card.key], quality)
@@ -1522,23 +1984,22 @@ function ReviewScreen({
       }
     });
     if (quality >= 3) setSessionCorrect(n => n + 1);
+    if (quality === 1) setSessionHard(h => [...h, card]);
     setLastQuality(quality);
-    if (showFeedback) {
-      setFlipped(false);
-      setPhase("feedback");
-    } else {
-      setIdx(i => i + 1);
-      setPhase("front");
-      setFlipped(false);
-      setLastQuality(null);
-    }
+    setIdx(i => i + 1);
+    setPhase("front");
+    setFlipped(false);
+    setLastQuality(null);
+    setTyped('');
+    setTypingResult(null);
   }
   function nextCard() {
     setIdx(i => i + 1);
     setPhase("front");
     setFlipped(false);
     setLastQuality(null);
-    setCountdown(null);
+    setTyped('');
+    setTypingResult(null);
   }
   const progress = idx / total;
   const estLeft = timeEst(remaining);
@@ -1566,11 +2027,11 @@ function ReviewScreen({
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: `flip-card${flipped ? " flipped" : ""}`
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "flip-face",
-    onClick: phase === "front" ? reveal : undefined,
+  }, !flipped && /*#__PURE__*/React.createElement("div", {
+    className: "flip-face flip-face-front",
+    onClick: !typingMode && !card.isCloze ? reveal : undefined,
     style: {
-      cursor: phase === "front" ? "pointer" : "default"
+      cursor: !typingMode && !card.isCloze ? "pointer" : "default"
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "rcard-topic"
@@ -1579,7 +2040,81 @@ function ReviewScreen({
     style: {
       background: card.topicColor
     }
-  }, card.topicTitle)), /*#__PURE__*/React.createElement("div", {
+  }, card.topicTitle)), card.isCloze ?
+  /*#__PURE__*/
+  // ── CLOZE FRONT ──
+  React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      color: "var(--accent)",
+      marginBottom: 12
+    }
+  }, lang === 'nl' ? 'Vul het ontbrekende woord in' : 'Fill in the missing word'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 19,
+      fontWeight: 700,
+      color: "var(--text)",
+      lineHeight: 1.5,
+      marginBottom: 16,
+      textAlign: "center"
+    }
+  }, card.blanked.split('___').map((part, i, arr) => /*#__PURE__*/React.createElement("span", {
+    key: i
+  }, part, i < arr.length - 1 && /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: "inline-block",
+      minWidth: 80,
+      borderBottom: "2px solid var(--accent)",
+      color: clozeResult === 'correct' ? "var(--ok)" : clozeResult === 'wrong' ? "var(--err)" : "transparent",
+      fontWeight: 800,
+      textAlign: "center",
+      margin: "0 2px"
+    }
+  }, clozeResult ? card.target : "___")))), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-divider"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-sentence-label"
+  }, lang === 'nl' ? 'Betekenis' : 'Meaning'), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-sentence-nl",
+    style: {
+      color: "var(--text2)"
+    }
+  }, card.en, " \u2014 ", card.ex_en)) : typingMode ?
+  /*#__PURE__*/
+  // ── TYPING FRONT ──
+  React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "rcard-sentence-label",
+    style: {
+      marginBottom: 4,
+      textTransform: "uppercase"
+    }
+  }, lang === 'nl' ? 'Vertaal naar het Nederlands:' : 'Translate to Dutch:'), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-word",
+    style: {
+      fontSize: 28,
+      marginBottom: 14
+    }
+  }, card.en), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-divider"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-sentence-label",
+    style: {
+      fontSize: 11,
+      marginBottom: 4
+    }
+  }, lang === 'nl' ? 'Voorbeeld:' : 'Example:'), /*#__PURE__*/React.createElement("div", {
+    className: "rcard-sentence-nl",
+    style: {
+      color: "var(--text2)",
+      fontSize: 13
+    }
+  }, card.ex_en)) :
+  /*#__PURE__*/
+  // ── NORMAL FRONT ──
+  React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "rcard-word"
   }, card.nl), /*#__PURE__*/React.createElement("div", {
     className: "rcard-audio"
@@ -1597,8 +2132,8 @@ function ReviewScreen({
     dark: false
   })), /*#__PURE__*/React.createElement("div", {
     className: "rcard-prompt"
-  }, "Wat betekent dit?")), /*#__PURE__*/React.createElement("div", {
-    className: "flip-face flip-back"
+  }, lang === 'nl' ? 'Wat betekent dit?' : 'What does this mean?'))), flipped && /*#__PURE__*/React.createElement("div", {
+    className: "flip-face flip-face-back"
   }, /*#__PURE__*/React.createElement("div", {
     className: "rcard-topic"
   }, /*#__PURE__*/React.createElement("span", {
@@ -1637,14 +2172,121 @@ function ReviewScreen({
     className: "rcard-prompt"
   }, "Hoe goed wist je dit?")))), /*#__PURE__*/React.createElement("div", {
     className: "review-actions"
-  }, phase === "front" ? /*#__PURE__*/React.createElement("div", {
+  }, card.isCloze && !flipped ?
+  // ── CLOZE OPTIONS ──
+  clozeResult ? /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    onClick: () => rate(clozeResult === 'correct' ? 3 : 1)
+  }, lang === 'nl' ? 'Volgende →' : 'Next →') : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, buildClozeOptions(card, getLevelTopics(store.settings?.level || 'a2').flatMap(tp => tp.words.map((w, i) => ({
+    ...w,
+    topicId: tp.id,
+    key: `${tp.id}:${i}`
+  })))).map((opt, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => {
+      const correct = opt === card.target;
+      setClozeResult(correct ? 'correct' : 'wrong');
+      if (correct) setSessionCorrect(n => n + 1);else setSessionHard(h => [...h, card]);
+    },
+    style: {
+      padding: "14px 16px",
+      borderRadius: 12,
+      border: "2px solid var(--border)",
+      background: "var(--surface)",
+      color: "var(--text)",
+      fontSize: 16,
+      fontWeight: 600,
+      cursor: "pointer",
+      fontFamily: "inherit",
+      textAlign: "left",
+      transition: "all .15s"
+    }
+  }, opt))) : typingMode && !flipped ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, typingResult === null ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("input", {
+    autoFocus: true,
+    value: typed,
+    onChange: e => setTyped(e.target.value),
+    onKeyDown: e => {
+      if (e.key === 'Enter' && typed.trim()) submitTyped();
+    },
+    placeholder: lang === 'nl' ? 'Typ het Nederlandse woord...' : 'Type the Dutch word...',
+    style: {
+      width: "100%",
+      padding: "12px 14px",
+      fontSize: 17,
+      fontFamily: "inherit",
+      borderRadius: 10,
+      border: "1.5px solid var(--border)",
+      background: "var(--surface)",
+      color: "var(--text)",
+      outline: "none",
+      boxSizing: "border-box"
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    onClick: submitTyped,
+    disabled: !typed.trim()
+  }, lang === 'nl' ? 'Controleer →' : 'Check →'), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost",
+    onClick: () => {
+      setTyped('');
+      reveal();
+    }
+  }, lang === 'nl' ? 'Toon het antwoord' : 'Show answer')) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "14px 16px",
+      borderRadius: 12,
+      textAlign: "center",
+      background: typingResult === 'correct' ? "var(--ok-bg,#dcfce7)" : "var(--err-bg,#fee2e2)",
+      border: `1.5px solid ${typingResult === 'correct' ? "var(--ok,#16a34a)" : "var(--err,#dc2626)"}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 24,
+      marginBottom: 4
+    }
+  }, typingResult === 'correct' ? '✓' : '✕'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      fontSize: 15,
+      color: typingResult === 'correct' ? "var(--ok,#16a34a)" : "var(--err,#dc2626)",
+      marginBottom: 4
+    }
+  }, typingResult === 'correct' ? lang === 'nl' ? 'Correct!' : 'Correct!' : lang === 'nl' ? 'Bijna! Het antwoord:' : 'Almost! The answer:'), typingResult === 'wrong' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 800,
+      fontSize: 20,
+      color: "var(--text)",
+      marginBottom: 2
+    }
+  }, card.nl)), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    onClick: () => rate(typingResult === 'correct' ? 3 : 1)
+  }, lang === 'nl' ? 'Volgende →' : 'Next →'))) : !typingMode && !flipped ? /*#__PURE__*/React.createElement("div", {
     className: "reveal-btn-wrap"
   }, /*#__PURE__*/React.createElement("button", {
     className: "btn btn-primary",
     onClick: reveal
   }, t.showMeaning)) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
     className: "rb rb-moeilijk",
-    onClick: () => rate(1, true)
+    onClick: () => rate(1)
   }, /*#__PURE__*/React.createElement("span", {
     className: "rb-name"
   }, t.hard), /*#__PURE__*/React.createElement("span", {
@@ -1663,43 +2305,7 @@ function ReviewScreen({
     className: "rb-name"
   }, t.easy), /*#__PURE__*/React.createElement("span", {
     className: "rb-sub"
-  }, nextLabel(store.srs[card.key], 5)))))), phase === "feedback" && card && /*#__PURE__*/React.createElement("div", {
-    className: "feedback-wrap",
-    style: {
-      animation: "fadeUp .2s ease-out"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "feedback-icon-wrap fi-miss"
-  }, "\u2715"), /*#__PURE__*/React.createElement("div", {
-    className: "feedback-title"
-  }, t.noProblem), /*#__PURE__*/React.createElement("div", {
-    className: "feedback-sub"
-  }, t.comesBack), /*#__PURE__*/React.createElement("div", {
-    className: "feedback-meaning"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "fm-l"
-  }, lang === 'nl' ? 'Betekenis' : 'Meaning'), /*#__PURE__*/React.createElement("div", {
-    className: "fm-v"
-  }, card.en)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 16,
-      fontSize: 13,
-      color: "var(--text2)",
-      fontWeight: 600
-    }
-  }, lang === 'nl' ? `Volgende kaart in` : `Next card in`, " ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 22,
-      fontWeight: 800,
-      color: "var(--accent)",
-      display: "inline-block",
-      minWidth: 24,
-      textAlign: "center"
-    }
-  }, countdown)), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-primary",
-    onClick: nextCard
-  }, lang === 'nl' ? 'Volgende kaart →' : 'Next card →')));
+  }, nextLabel(store.srs[card.key], 5)))))));
 }
 
 // ─── HOME SCREEN ──────────────────────────────────────────────────────────────
@@ -1781,7 +2387,8 @@ function HomeScreen({
 // ─── PROGRESS SCREEN ─────────────────────────────────────────────────────────
 function ProgressScreen({
   store,
-  lang
+  lang,
+  level = 'a2'
 }) {
   const t = T[lang];
   const [browseTopic, setBrowseTopic] = useState(null);
@@ -1789,13 +2396,18 @@ function ProgressScreen({
   if (browseTopic) return /*#__PURE__*/React.createElement(VocabBrowser, {
     topicId: browseTopic,
     store: store,
-    onBack: () => setBrowseTopic(null)
+    onBack: () => setBrowseTopic(null),
+    level: level,
+    lang: lang
   });
   if (browseGrammar) return /*#__PURE__*/React.createElement(GrammarReference, {
     store: store,
-    onBack: () => setBrowseGrammar(false)
+    onBack: () => setBrowseGrammar(false),
+    level: level
   });
   const stats = getStats(store.srs, store.progress);
+  const TOPICS = getLevelTopics(level);
+  const GRAMMAR_FULL = getLevelGrammar(level);
   const totalWords = TOPICS.reduce((s, topic) => s + topic.words.length, 0);
   const cefrPct = Math.min(100, Math.round(stats.seen / totalWords * 100));
   const masteredPct = Math.min(100, Math.round(stats.total / totalWords * 100));
@@ -1948,27 +2560,35 @@ function ProgressScreen({
 function VocabBrowser({
   topicId,
   store,
-  onBack
+  onBack,
+  level = 'a2',
+  lang = 'en'
 }) {
-  const topic = TOPICS.find(tp => tp.id === topicId);
+  const topic = getLevelTopics(level).find(tp => tp.id === topicId);
   const [filter, setFilter] = useState("all"); // all | due | learned | new
 
   const words = topic.words.map((wd, i) => {
     const key = `${topic.id}:${i}`;
     const card = store.srs[key];
     let status = "new";
-    if (card) status = isDue(card) ? "due" : "learned";
+    if (card) {
+      if (isDue(card)) status = "due";else status = "learned";
+    }
+    // "hard" = seen + due + low interval (struggling)
+    const isHard = card && isDue(card) && (card.interval || 0) < 2 && (card.reps || 0) >= 2;
     return {
       ...wd,
       key,
       card,
       status,
+      isHard,
       i
     };
   });
-  const filtered = filter === "all" ? words : words.filter(w => w.status === filter);
+  const filtered = filter === "all" ? words : filter === "hard" ? words.filter(w => w.isHard) : words.filter(w => w.status === filter);
   const counts = {
     all: words.length,
+    hard: words.filter(w => w.isHard).length,
     due: words.filter(w => w.status === "due").length,
     learned: words.filter(w => w.status === "learned").length,
     new: words.filter(w => w.status === "new").length
@@ -1984,7 +2604,7 @@ function VocabBrowser({
     className: "browser-count"
   }, filtered.length, " woorden")), /*#__PURE__*/React.createElement("div", {
     className: "browser-filter"
-  }, [["all", "Alles"], ["due", "Te herhalen"], ["learned", "Geleerd"], ["new", "Nieuw"]].map(([key, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["all", lang === 'nl' ? "Alles" : "All"], ["hard", lang === 'nl' ? "😓 Moeilijk" : "😓 Hard"], ["due", lang === 'nl' ? "Te herhalen" : "Due"], ["learned", lang === 'nl' ? "Geleerd" : "Learned"], ["new", lang === 'nl' ? "Nieuw" : "New"]].map(([key, label]) => /*#__PURE__*/React.createElement("button", {
     key: key,
     className: `filter-pill${filter === key ? " active" : ""}`,
     onClick: () => setFilter(key)
@@ -1995,7 +2615,11 @@ function VocabBrowser({
     const statusCls = wd.status === "new" ? "ws-new" : wd.status === "due" ? "ws-due" : "ws-ok";
     return /*#__PURE__*/React.createElement("div", {
       key: wd.key,
-      className: "word-item"
+      className: "word-item",
+      style: wd.isHard ? {
+        borderLeft: "3px solid var(--err)",
+        paddingLeft: 11
+      } : {}
     }, /*#__PURE__*/React.createElement("div", {
       className: "word-item-left"
     }, /*#__PURE__*/React.createElement("div", {
@@ -2020,10 +2644,12 @@ function VocabBrowser({
 // ─── GRAMMAR REFERENCE ────────────────────────────────────────────────────────
 function GrammarReference({
   store,
-  onBack
+  onBack,
+  level = 'a2'
 }) {
   const [openId, setOpenId] = useState(null);
   const grSrs = store.grSrs || {};
+  const GRAMMAR_FULL = getLevelGrammar(level);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "browser-header"
   }, /*#__PURE__*/React.createElement("button", {
@@ -2094,10 +2720,23 @@ function GrammarReference({
 function LearnScreen({
   store,
   persist,
-  lang
+  lang,
+  level = 'a2'
 }) {
   const t = T[lang];
-  const [track, setTrack] = useState("vocab"); // vocab | grammar
+  const [track, setTrack] = useState("vocab");
+  const [topicId, setTopicId] = useState(null); // null = auto (next unseen)
+
+  const TOPICS = getLevelTopics(level);
+  const topicStats = TOPICS.map(topic => {
+    const seen = topic.words.filter((_, i) => !!store.srs[`${topic.id}:${i}`]).length;
+    const newCount = topic.words.length - seen;
+    return {
+      ...topic,
+      seen,
+      newCount
+    };
+  });
   return /*#__PURE__*/React.createElement("div", {
     className: "learn-page"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2113,7 +2752,7 @@ function LearnScreen({
     className: "track-btn-label"
   }, t.vocabTrack), /*#__PURE__*/React.createElement("span", {
     className: "track-btn-sub"
-  }, getNewWords(store.srs).length, " woorden")), /*#__PURE__*/React.createElement("button", {
+  }, getNewWords(store.srs, level).length, " ", lang === 'nl' ? 'onbekend' : 'new')), /*#__PURE__*/React.createElement("button", {
     className: `track-btn${track === "grammar" ? " active" : ""}`,
     onClick: () => setTrack("grammar")
   }, /*#__PURE__*/React.createElement("span", {
@@ -2122,14 +2761,87 @@ function LearnScreen({
     className: "track-btn-label"
   }, t.grammarTrack), /*#__PURE__*/React.createElement("span", {
     className: "track-btn-sub"
-  }, GRAMMAR_FULL.length - Object.keys(store.grSrs || {}).length, " regels"))), track === "vocab" ? /*#__PURE__*/React.createElement(VocabLesson, {
+  }, getLevelGrammar(level).length - Object.keys(store.grSrs || {}).length, " ", lang === 'nl' ? 'regels' : 'rules'))), track === "vocab" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      color: "var(--text2)",
+      padding: "0 0 8px"
+    }
+  }, lang === 'nl' ? 'Kies een onderwerp' : 'Choose a topic'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => setTopicId(null),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "10px 14px",
+      borderRadius: 10,
+      border: "1.5px solid",
+      fontFamily: "inherit",
+      cursor: "pointer",
+      background: topicId === null ? "var(--accent)" : "var(--surface)",
+      borderColor: topicId === null ? "var(--accent)" : "var(--border)",
+      color: topicId === null ? "#fff" : "var(--text)"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700,
+      fontSize: 14
+    }
+  }, "\u2B50 ", lang === 'nl' ? 'Automatisch (aanbevolen)' : 'Auto (recommended)'), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      opacity: .8
+    }
+  }, getNewWords(store.srs, level).length, " ", lang === 'nl' ? 'nieuw' : 'new')), topicStats.map(topic => /*#__PURE__*/React.createElement("button", {
+    key: topic.id,
+    onClick: () => setTopicId(topic.id),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "10px 14px",
+      borderRadius: 10,
+      border: "1.5px solid",
+      fontFamily: "inherit",
+      cursor: "pointer",
+      background: topicId === topic.id ? "var(--accent)" : "var(--surface)",
+      borderColor: topicId === topic.id ? "var(--accent)" : "var(--border)",
+      color: topicId === topic.id ? "#fff" : "var(--text)"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700,
+      fontSize: 14
+    }
+  }, topic.icon, " ", topic.title), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      opacity: .8
+    }
+  }, topic.newCount, " ", lang === 'nl' ? 'nieuw' : 'new', " \xB7 ", topic.seen, "/", topic.words.length))))), /*#__PURE__*/React.createElement(VocabLesson, {
     store: store,
     persist: persist,
-    lang: lang
-  }) : /*#__PURE__*/React.createElement(GrammarLesson, {
+    lang: lang,
+    level: level,
+    topicId: topicId
+  })), track === "grammar" && /*#__PURE__*/React.createElement(GrammarLesson, {
     store: store,
     persist: persist,
-    lang: lang
+    lang: lang,
+    level: level
   }));
 }
 
@@ -2137,10 +2849,15 @@ function LearnScreen({
 function VocabLesson({
   store,
   persist,
-  lang
+  lang,
+  level = 'a2',
+  topicId = null
 }) {
   const t = T[lang];
-  const newWords = useMemo(() => getNewWords(store.srs), []);
+  const newWords = useMemo(() => {
+    const all = getNewWords(store.srs, level);
+    return topicId ? all.filter(w => w.topicId === topicId) : all;
+  }, [level, topicId]);
   const [phase, setPhase] = useState("entry");
   const [idx, setIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -2177,7 +2894,7 @@ function VocabLesson({
   }, /*#__PURE__*/React.createElement("div", {
     className: "lec-top",
     style: {
-      background: TOPICS.find(tp => tp.id === word.topicId)?.color || "#2563EB"
+      background: getLevelTopics(level).find(tp => tp.id === word.topicId)?.color || "#2563EB"
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "lec-eyebrow"
@@ -2386,12 +3103,13 @@ function VocabLesson({
 function GrammarLesson({
   store,
   persist,
-  lang
+  lang,
+  level = 'a2'
 }) {
   const t = T[lang];
   const grSrs = store.grSrs || {};
-  const nextRule = useMemo(() => getNextGrammarLesson(grSrs), []);
-  const dueReviews = useMemo(() => getDueGrammar(grSrs), []);
+  const nextRule = useMemo(() => getNextGrammarLesson(grSrs, level), [level]);
+  const dueReviews = useMemo(() => getDueGrammar(grSrs, level), [level]);
   const [phase, setPhase] = useState(dueReviews.length > 0 ? "review" : "study");
   const [revIdx, setRevIdx] = useState(0);
   const [revAns, setRevAns] = useState(null);
@@ -2544,7 +3262,7 @@ function GrammarLesson({
       color: "var(--text2)",
       marginBottom: 10
     }
-  }, "Nieuwe regel \xB7 ", Object.keys(grSrs).length + 1, "/", GRAMMAR_FULL.length), /*#__PURE__*/React.createElement("div", {
+  }, "Nieuwe regel \xB7 ", Object.keys(grSrs).length + 1, "/", getLevelGrammar(level).length), /*#__PURE__*/React.createElement("div", {
     className: "gr-rule-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gr-rule-hdr",
@@ -2673,7 +3391,9 @@ function ProfileScreen({
   dark,
   setDark,
   lang,
-  setLang
+  setLang,
+  level = 'a2',
+  setLevel
 }) {
   const t = T[lang];
   const dailyGoal = store.settings?.dailyGoal || 20;
@@ -2768,6 +3488,86 @@ function ProfileScreen({
       });
     }
   })), /*#__PURE__*/React.createElement("div", {
+    style: row
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: "var(--text)",
+      marginBottom: 2
+    }
+  }, lang === 'nl' ? 'Typtmodus' : 'Typing mode'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--text2)"
+    }
+  }, lang === 'nl' ? 'Typ het Nederlandse woord' : 'Type the Dutch word from memory')), /*#__PURE__*/React.createElement(Toggle, {
+    on: store.settings?.typingMode || false,
+    onToggle: () => {
+      const tm = !(store.settings?.typingMode || false);
+      persist({
+        ...store,
+        settings: {
+          ...store.settings,
+          typingMode: tm
+        }
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: row
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: "var(--text)",
+      marginBottom: 2
+    }
+  }, lang === 'nl' ? 'Niveau' : 'Level'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--text2)"
+    }
+  }, lang === 'nl' ? 'Je woordenschat en grammatica' : 'Your vocabulary and grammar')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6
+    }
+  }, [['a1', 'A0→A1'], ['a2', 'A2→B2']].map(([lv, label]) => /*#__PURE__*/React.createElement("button", {
+    key: lv,
+    onClick: () => {
+      if (lv === level) return; // already on this level
+      const base = {
+        srs: {},
+        grSrs: {},
+        progress: {
+          streak: 0,
+          lastDate: null,
+          streakDate: null,
+          reviewedToday: [],
+          totalReviewed: 0
+        },
+        settings: {
+          ...store.settings,
+          level: lv
+        }
+      };
+      const fresh = seedStore(base);
+      persist(fresh);
+      setLevel(lv);
+    },
+    style: {
+      padding: "6px 12px",
+      borderRadius: 20,
+      border: "1.5px solid",
+      fontSize: 12,
+      fontWeight: 700,
+      cursor: "pointer",
+      fontFamily: "inherit",
+      background: level === lv ? "var(--accent)" : "var(--surface2)",
+      color: level === lv ? "#fff" : "var(--text2)",
+      borderColor: level === lv ? "var(--accent)" : "var(--border)"
+    }
+  }, label)))), /*#__PURE__*/React.createElement("div", {
     style: rowLast
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2886,6 +3686,58 @@ function ProfileScreen({
       justifyContent: "center"
     }
   }, "+"))), /*#__PURE__*/React.createElement("div", {
+    style: rowLast
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: "var(--text)",
+      marginBottom: 2
+    }
+  }, lang === 'nl' ? 'Zin-modus' : 'Sentence mode'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--text2)"
+    }
+  }, lang === 'nl' ? 'Vul ontbrekende woorden in' : 'Fill in the missing word')), /*#__PURE__*/React.createElement(Toggle, {
+    on: store.settings?.clozeMode || false,
+    onToggle: () => {
+      const cm = !(store.settings?.clozeMode || false);
+      persist({
+        ...store,
+        settings: {
+          ...store.settings,
+          clozeMode: cm
+        }
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: rowLast
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: "var(--text)",
+      marginBottom: 2
+    }
+  }, lang === 'nl' ? 'Typ-modus' : 'Typing mode'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--text2)"
+    }
+  }, lang === 'nl' ? 'Zie Engels, typ Nederlands' : 'See English, type Dutch')), /*#__PURE__*/React.createElement(Toggle, {
+    on: store.settings?.typingMode || false,
+    onToggle: () => {
+      const tm = !(store.settings?.typingMode || false);
+      persist({
+        ...store,
+        settings: {
+          ...store.settings,
+          typingMode: tm
+        }
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -2953,7 +3805,7 @@ function ProfileScreen({
       color: "var(--text2)",
       lineHeight: 1.7
     }
-  }, "SpeekNL \u2014 A2 ", lang === 'nl' ? 'naar' : 'to', " B2", /*#__PURE__*/React.createElement("br", null), TOPICS.reduce((s, tp) => s + tp.words.length, 0), " ", lang === 'nl' ? 'woorden' : 'words', " \xB7 ", GRAMMAR_FULL.length, " ", lang === 'nl' ? 'grammaticaregels' : 'grammar rules', /*#__PURE__*/React.createElement("br", null), "Spaced Repetition (SM-2)")));
+  }, "SpeekNL \u2014 A2 ", lang === 'nl' ? 'naar' : 'to', " B2", /*#__PURE__*/React.createElement("br", null), getLevelTopics(level).reduce((s, tp) => s + tp.words.length, 0), " ", lang === 'nl' ? 'woorden' : 'words', " \xB7 ", getLevelGrammar(level).length, " ", lang === 'nl' ? 'grammaticaregels' : 'grammar rules', /*#__PURE__*/React.createElement("br", null), "Spaced Repetition (SM-2)")));
 }
 
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
@@ -2963,6 +3815,7 @@ function App() {
   const [inReview, setInReview] = useState(false);
   const [dark, setDark] = useState(false);
   const [lang, setLang] = useState('en');
+  const [level, setLevel] = useState('a2');
   useEffect(() => {
     loadStore().then(s => {
       setStore(s);
@@ -3121,7 +3974,9 @@ function App() {
     store: store,
     persist: persist,
     onBack: () => setInReview(false),
-    lang: lang
+    lang: lang,
+    typingMode: store.settings?.typingMode || false,
+    clozeMode: store.settings?.clozeMode || false
   }) : tab === "home" ? /*#__PURE__*/React.createElement(HomeScreen, {
     store: store,
     onStartReview: () => setInReview(true),
@@ -3131,21 +3986,27 @@ function App() {
     store: store,
     persist: persist,
     onBack: () => setTab("home"),
-    lang: lang
+    lang: lang,
+    typingMode: store.settings?.typingMode || false,
+    clozeMode: store.settings?.clozeMode || false
   }) : tab === "progress" ? /*#__PURE__*/React.createElement(ProgressScreen, {
     store: store,
-    lang: lang
+    lang: lang,
+    level: level
   }) : tab === "learn" ? /*#__PURE__*/React.createElement(LearnScreen, {
     store: store,
     persist: persist,
-    lang: lang
+    lang: lang,
+    level: level
   }) : tab === "profile" ? /*#__PURE__*/React.createElement(ProfileScreen, {
     store: store,
     persist: persist,
     dark: dark,
     setDark: setDark,
     lang: lang,
-    setLang: setLang
+    setLang: setLang,
+    level: level,
+    setLevel: setLevel
   }) : null), !inReview && /*#__PURE__*/React.createElement("nav", {
     className: "nav"
   }, NAV.map(item => /*#__PURE__*/React.createElement("button", {
@@ -3164,7 +4025,4 @@ function App() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(React.createElement(App, null));
-  </script>
-</body>
-</html>
+root.render(React.createElement(App, null));</script></body></html>
